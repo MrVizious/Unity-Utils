@@ -1,6 +1,5 @@
 using UnityEngine;
-using UnityEngine.Events;
-
+using UltEvents;
 namespace GameEvents
 {
     public class GameEventListener : MonoBehaviour
@@ -9,7 +8,7 @@ namespace GameEvents
         public GameEvent Event;
 
         [Tooltip("Response to invoke when Event is raised.")]
-        public UnityEvent Response;
+        public UltEvent Response;
 
         private void OnEnable()
         {

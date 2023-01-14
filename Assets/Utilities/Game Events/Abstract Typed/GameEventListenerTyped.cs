@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using UltEvents;
 
 namespace GameEvents
 {
@@ -12,7 +12,7 @@ namespace GameEvents
         public GameEventTyped<T> Event;
 
         [Tooltip("Response to invoke when Event is raised.")]
-        public UnityEvent<T> Response;
+        public UltEvent<T> Response;
 
         private void OnEnable()
         {
