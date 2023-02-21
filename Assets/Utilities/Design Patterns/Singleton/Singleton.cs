@@ -29,10 +29,9 @@ namespace DesignPatterns
             {
                 if (_instance == null)
                 {
-                    _instance = (T)FindObjectOfType(typeof(T));
-                    if (_instance == null)
+                    T existingInstance = (T)FindObjectOfType(typeof(T));
+                    if (existingInstance == null)
                     {
-
                         string goName = typeof(T).ToString();
 
                         GameObject go = GameObject.Find(goName);
@@ -41,13 +40,25 @@ namespace DesignPatterns
                             go = new GameObject();
                             go.name = goName;
                         }
-
-                        _instance = go.AddComponent<T>();
-                        DontDestroyOnLoad(_instance);
+                        existingInstance = go.AddComponent<T>();
                     }
+                    Instance = existingInstance;
                 }
                 return _instance;
             }
+            protected set
+            {
+                if (_instance == null)
+                {
+                    _instance = value;
+                    DontDestroyOnLoad(_instance);
+                }
+            }
+        }
+
+        protected void Awake()
+        {
+            T newInstance = Instance;
         }
 
         /// <summary>
