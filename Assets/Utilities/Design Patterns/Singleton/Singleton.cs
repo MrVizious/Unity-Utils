@@ -11,8 +11,18 @@ namespace DesignPatterns
     /// </summary>
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-
         private static T _instance = null;
+
+
+        // if you want a child class to be destroyed on load, copy this code into it:
+        // protected override bool dontDestroyOnLoad
+        // {
+        //     get { return false; }
+        // }
+        protected virtual bool dontDestroyOnLoad
+        {
+            get { return true; }
+        }
 
         public static bool IsAwake { get { return (_instance != null); } }
 
@@ -29,8 +39,8 @@ namespace DesignPatterns
             {
                 if (_instance == null)
                 {
-                    T existingInstance = (T)FindObjectOfType(typeof(T));
-                    if (existingInstance == null)
+                    _instance = (T)FindObjectOfType(typeof(T));
+                    if (_instance == null)
                     {
                         string goName = typeof(T).ToString();
 
@@ -40,25 +50,17 @@ namespace DesignPatterns
                             go = new GameObject();
                             go.name = goName;
                         }
-                        existingInstance = go.AddComponent<T>();
+                        _instance = go.AddComponent<T>();
                     }
-                    Instance = existingInstance;
                 }
                 return _instance;
-            }
-            protected set
-            {
-                if (_instance == null)
-                {
-                    _instance = value;
-                    DontDestroyOnLoad(_instance);
-                }
             }
         }
 
         protected void Awake()
         {
-            T newInstance = Instance;
+            T _instace = Instance;
+            if (dontDestroyOnLoad) DontDestroyOnLoad(_instance);
         }
 
         /// <summary>
