@@ -7,10 +7,10 @@ namespace DesignPatterns
     /// <summary>
     /// example	: '''public class MyClass : State<MyClass> { ... }'''
     /// </summary>
-    public abstract class State<T> : MonoBehaviour where T : State<T>
+    public abstract class State : MonoBehaviour
     {
-        protected StateMachine<T> _stateMachine;
-        public StateMachine<T> stateMachine
+        protected StateMachine<State> _stateMachine;
+        public StateMachine<State> stateMachine
         {
             get
             {

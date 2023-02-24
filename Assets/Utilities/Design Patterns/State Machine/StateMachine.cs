@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace DesignPatterns
 {
-    public abstract class StateMachine<T> : MonoBehaviour where T : State<T>
+    /// <summary>
+    /// Usage: public class ExampleStateMachine : StateMachine<ExampleState> { ... }
+    /// </summary>
+    /// <typeparam name="T">State type</typeparam>
+    public abstract class StateMachine<T> : MonoBehaviour where T : State
     {
         protected Stack<T> stateStack;
         protected T currentState;

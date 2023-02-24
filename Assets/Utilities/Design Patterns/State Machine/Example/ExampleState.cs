@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DesignPatterns;
 
-public class ExampleState : State<ExampleState>
+public class ExampleState : State
 {
     public override void Enter()
     {
