@@ -6,7 +6,7 @@ namespace DesignPatterns
     /// MONOBEHAVIOR PSEUDO SINGLETON ABSTRACT CLASS
     /// usage	: best is to be attached to a gameobject but if not that is ok,
     /// 		: this will create one on first access
-    /// example	: '''public sealed class MyClass : Singleton<MyClass> {'''
+    /// example	: '''public sealed class MyClass : Singleton<MyClass> { ... }'''
     /// references	: http://tinyurl.com/cc73a9h
     /// </summary>
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
