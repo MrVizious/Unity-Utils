@@ -4,14 +4,14 @@ namespace ExtensionMethods
 {
     public static class GameObjectExtensionMethods
     {
-        public static T GetOrAddComponent<T>(this GameObject gameObject) where T : MonoBehaviour
+        public static T GetOrAddComponent<T>(this GameObject gameObject) where T : Behaviour
         {
             var component = gameObject.GetComponent<T>();
             if (component == null) gameObject.AddComponent<T>();
             return component;
         }
 
-        public static bool HasComponent<T>(this GameObject gameObject) where T : MonoBehaviour
+        public static bool HasComponent<T>(this GameObject gameObject) where T : Behaviour
         {
             return gameObject.GetComponent<T>() != null;
         }
