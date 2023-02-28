@@ -19,4 +19,5 @@ namespace UtilityMethods
             return (value - inputMinValue) / (inputMaxValue - inputMinValue) * (outputMaxValue - outputMinValue) + outputMinValue;
         }
     }
+
 }
