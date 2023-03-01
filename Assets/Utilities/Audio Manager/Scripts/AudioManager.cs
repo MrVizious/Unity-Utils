@@ -9,6 +9,7 @@ public class AudioManager : Singleton<AudioManager>
     public AudioSettings settings;
     private Transform musicParent, soundParent;
     private Pool<AudioSourceExtended> musicSources, soundSources;
+    private AudioSourceExtended mainMusicSource;
     private void Start()
     {
         // Start GameObjects
@@ -33,10 +34,26 @@ public class AudioManager : Singleton<AudioManager>
         source.Play(clip, minPitchRange: minPitchRange, maxPitchRange: maxPitchRange);
     }
 
+    public void PlayRandomSound(AudioLibrary library, float minPitchRange = 1f, float maxPitchRange = 1f)
+    {
+        AudioSourceExtended source = soundSources.Get();
+        PlaySound(library.GetRandom(), minPitchRange: minPitchRange, maxPitchRange: maxPitchRange);
+    }
+
     public void PlayMusic(AudioClip clip)
     {
         AudioSourceExtended source = musicSources.Get();
+        if (mainMusicSource)
+        {
+            mainMusicSource.Stop();
+        }
+        mainMusicSource = source;
         source.Play(clip, true);
+    }
+
+    public void PlayRandomMusic(AudioLibrary library)
+    {
+        PlayMusic(library.GetRandom());
     }
 
     public void UpdateMasterVolume()

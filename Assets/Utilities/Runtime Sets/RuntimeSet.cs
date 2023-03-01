@@ -11,7 +11,7 @@ namespace RuntimeSet
         public List<T> Items = new List<T>();
         public UltEvent<T> onItemAdded, onItemRemoved;
 
-        public void Add(T thing)
+        public virtual void Add(T thing)
         {
             if (!Items.Contains(thing))
             {
@@ -20,7 +20,7 @@ namespace RuntimeSet
             }
         }
 
-        public void Add(IEnumerable<T> things)
+        public virtual void Add(IEnumerable<T> things)
         {
             foreach (T thing in things)
             {
@@ -28,7 +28,7 @@ namespace RuntimeSet
             }
         }
 
-        public void Remove(T thing)
+        public virtual void Remove(T thing)
         {
             if (Items.Contains(thing))
             {
@@ -37,7 +37,7 @@ namespace RuntimeSet
             }
         }
 
-        public void Remove(IEnumerable<T> things)
+        public virtual void Remove(IEnumerable<T> things)
         {
             foreach (T thing in things)
             {
@@ -45,27 +45,32 @@ namespace RuntimeSet
             }
         }
 
-        public T RemoveAt(int index)
+        public virtual T RemoveAt(int index)
         {
             T thing = GetAt(index);
             Remove(thing);
             return thing;
         }
-        public T RemoveRandom()
+        public virtual T RemoveRandom()
         {
             T thing = GetRandom();
             Remove(thing);
             return thing;
         }
 
-        public T GetAt(int index)
+        public virtual T GetAt(int index)
         {
             return Items[index];
         }
 
-        public T GetRandom()
+        public virtual T GetRandom()
         {
-            return GetAt(Random.Range(0, Items.Count));
+            return GetRandom(out int dummy);
+        }
+        public virtual T GetRandom(out int index)
+        {
+            index = Random.Range(0, Items.Count);
+            return GetAt(index);
         }
 
 
