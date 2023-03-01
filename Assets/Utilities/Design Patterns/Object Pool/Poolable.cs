@@ -8,7 +8,6 @@ namespace DesignPatterns
         public virtual void Init(Pool<T> newPool)
         {
             pool = newPool;
-            Debug.Log(pool);
         }
         public static T GetNewInstance(string newName = "New Pooled Object", Transform newParent = null)
         {
@@ -17,10 +16,7 @@ namespace DesignPatterns
             return go.AddComponent<T>();
         }
         public virtual void OnPoolGet() { }
-        public virtual void OnPoolRelease()
-        {
-            pool.Release((T)this);
-        }
+        public virtual void OnPoolRelease() { }
         public virtual void OnPoolDestroy() { }
         public virtual void Release()
         {

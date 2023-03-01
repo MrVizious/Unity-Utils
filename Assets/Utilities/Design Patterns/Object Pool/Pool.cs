@@ -1,6 +1,7 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using RuntimeSet;
 
 namespace DesignPatterns
 {
@@ -13,19 +14,14 @@ namespace DesignPatterns
     public class Pool<T> where T : Poolable<T>
     {
         private T _prefab;
-        private ObjectPool<T> _pool;
+        public List<T> activeObjects = new List<T>();
 
-        private ObjectPool<T> pool
+        public ObjectPool<T> pool
         {
-            get
-            {
-                if (_pool == null) throw new InvalidOperationException("You need to call InitPool before using it.");
-                return _pool;
-            }
-            set => _pool = value;
+            get; protected set;
         }
 
-        public Pool(int initial = 10, int max = 100, bool collectionChecks = true, T prefab = null)
+        public Pool(int defaultCapacity = 10, int maxSize = 100, bool collectionCheck = true, string newObjectName = "Pooled Object", T prefab = null, Transform parent = null)
         {
             _prefab = prefab;
             pool = new ObjectPool<T>(
@@ -38,7 +34,7 @@ namespace DesignPatterns
                     }
                     else
                     {
-                        newObject = (T)Poolable<T>.GetNewInstance();
+                        newObject = (T)Poolable<T>.GetNewInstance(newObjectName, parent);
                     }
                     newObject.Init(this);
                     return newObject;
@@ -56,14 +52,23 @@ namespace DesignPatterns
                 {
                     obj.OnPoolDestroy();
                 },
-                collectionChecks,
-                initial,
-                max);
+                collectionCheck,
+                defaultCapacity,
+                maxSize);
         }
 
         #region Getters
-        public T Get() => pool.Get();
-        public void Release(T obj) => pool.Release(obj);
+        public T Get()
+        {
+            T obj = pool.Get();
+            activeObjects.Add(obj);
+            return obj;
+        }
+        public void Release(T obj)
+        {
+            activeObjects.Remove(obj);
+            pool.Release(obj);
+        }
         #endregion
     }
 }
