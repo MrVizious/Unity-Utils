@@ -16,7 +16,6 @@ namespace Audio
         }
         protected virtual void SetSelected(int index)
         {
-            Debug.Log("Selecting index " + index);
             selectedClip = index > 0 ? Items[index] : null;
         }
     }
