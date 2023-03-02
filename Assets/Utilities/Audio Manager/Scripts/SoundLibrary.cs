@@ -9,7 +9,7 @@ namespace Audio
     [CreateAssetMenu(fileName = "SoundLibrary", menuName = "AudioManager/AudioLibrary/SoundLibrary", order = 0)]
     public class SoundLibrary : AudioLibrary
     {
-        public float minPitchRange, maxPitchRange;
+        public float minPitchRange = 1f, maxPitchRange = 1f;
 
         public AudioSourceExtended PlaySound(AudioClip clip)
         {

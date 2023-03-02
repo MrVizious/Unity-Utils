@@ -16,7 +16,7 @@ namespace Audio
         }
         protected virtual void SetSelected(int index)
         {
-            selectedClip = index > 0 ? Items[index] : null;
+            selectedClip = index >= 0 ? Items[index] : null;
         }
     }
 

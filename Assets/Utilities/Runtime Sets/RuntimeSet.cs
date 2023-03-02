@@ -85,7 +85,7 @@ namespace RuntimeSet
                 index = 0;
                 return GetAt(0);
             }
-            index = -1;
+            index = indexToExclude;
             while (index == indexToExclude)
             {
                 index = Random.Range(0, Items.Count);
