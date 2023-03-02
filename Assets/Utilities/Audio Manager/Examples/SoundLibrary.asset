@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d69dfdf84f0e9514ca7b17eea6dc2fb2, type: 3}
   m_Name: SoundLibrary
   m_EditorClassIdentifier: 
-  Items: []
+  Items:
+  - {fileID: 8300000, guid: 3fc8d5a4bfcbe224b91c5a7f3535d850, type: 3}
   onItemAdded:
     _PersistentCalls: []
   onItemRemoved:
     _PersistentCalls: []
-  latestIndexUsed: -1
-  minPitchRange: 0
-  maxPitchRange: 0
+  latestIndexUsed: 0
+  minPitchRange: 1
+  maxPitchRange: 1
