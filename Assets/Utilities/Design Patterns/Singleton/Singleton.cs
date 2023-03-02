@@ -1,4 +1,5 @@
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace DesignPatterns
 {
@@ -9,7 +10,7 @@ namespace DesignPatterns
     /// example	: '''public sealed class MyClass : Singleton<MyClass> { ... }'''
     /// references	: http://tinyurl.com/cc73a9h
     /// </summary>
-    public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+    public abstract class Singleton<T> : SerializedMonoBehaviour where T : SerializedMonoBehaviour
     {
         private static T _instance = null;
 

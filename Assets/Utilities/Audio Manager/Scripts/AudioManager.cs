@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using DesignPatterns;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -15,7 +16,7 @@ namespace Audio
     {
         public bool stopOnMuted = true;
         private AudioSettings _settings;
-        [ShowInInspector]
+        [OdinSerialize, ExecuteAlways]
         public AudioSettings settings
         {
             get
@@ -36,6 +37,7 @@ namespace Audio
             }
             set
             {
+                Debug.Log("Setting settings");
                 _settings = value;
             }
         }

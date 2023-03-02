@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Items:
   - {fileID: 8300000, guid: 3fc8d5a4bfcbe224b91c5a7f3535d850, type: 3}
+  - {fileID: 8300000, guid: c805f15ffaa4c9040954d24d4dba045d, type: 3}
   onItemAdded:
     _PersistentCalls: []
   onItemRemoved:
     _PersistentCalls: []
-  latestIndexUsed: 0
-  minPitchRange: 1
-  maxPitchRange: 1
+  latestIndexUsed: 1
+  minPitchRange: 0.5
+  maxPitchRange: 2
