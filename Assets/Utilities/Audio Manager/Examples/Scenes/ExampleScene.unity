@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: 1817144846}
   - component: {fileID: 1817144849}
   - component: {fileID: 1817144850}
+  - component: {fileID: 1817144851}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -238,7 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df096152dbc8a6e4b9c5a7507ff31385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: da60859ebac192742b2f6b38797337ad, type: 2}
+  stopOnMuted: 1
 --- !u!4 &1817144847
 Transform:
   m_ObjectHideFlags: 0
@@ -324,3 +325,46 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 8300000, guid: 89f420240f236954e86ad73e02ee8b96, type: 3}
+--- !u!114 &1817144851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817144845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b287afc1ece34949a90d4a829cf0d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Description: 
+  actionsToExecute:
+    _PersistentCalls:
+    - _Target: {fileID: 1817144846}
+      _MethodName: PlaySound
+      _PersistentArguments:
+      - _Type: 13
+        _Int: 0
+        _String: UnityEngine.AudioClip, UnityEngine.AudioModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 8300000, guid: 3fc8d5a4bfcbe224b91c5a7f3535d850, type: 3}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 1
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 1
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}

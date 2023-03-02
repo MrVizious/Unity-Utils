@@ -10,20 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0290cf804b585f248b69224ff25010ed, type: 3}
-  m_Name: AudioSettings
+  m_Name: AudioSettingsAuto
   m_EditorClassIdentifier: 
   onMasterVolumeChanged:
-    _PersistentCalls:
-    - _Target: {fileID: 0}
-      _MethodName: UpdateMasterVolume
-      _PersistentArguments: []
+    _PersistentCalls: []
   onMusicVolumeChanged:
-    _PersistentCalls:
-    - _Target: {fileID: 0}
-      _MethodName: UpdateMusicVolume
-      _PersistentArguments: []
+    _PersistentCalls: []
   onSoundVolumeChanged:
-    _PersistentCalls:
-    - _Target: {fileID: 0}
-      _MethodName: UpdateSoundVolume
-      _PersistentArguments: []
+    _PersistentCalls: []
+  onMasterMuted:
+    _PersistentCalls: []
+  onMusicMuted:
+    _PersistentCalls: []
+  onSoundMuted:
+    _PersistentCalls: []

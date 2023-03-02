@@ -5,7 +5,6 @@ using UltEvents;
 using Cysharp.Threading.Tasks;
 using ExtensionMethods;
 using DesignPatterns;
-using UnityEngine.Pool;
 
 [RequireComponent(typeof(AudioSource))]
 public class AudioSourceExtended : Poolable<AudioSourceExtended>
@@ -23,13 +22,12 @@ public class AudioSourceExtended : Poolable<AudioSourceExtended>
         }
     }
 
-    public async void Play(AudioClip clip, bool loop = false, float minPitchRange = 1f, float maxPitchRange = 1f)
+    public AudioSourceExtended Play(AudioClip clip, float volume, bool loop = false, float minPitchRange = 1f, float maxPitchRange = 1f)
     {
-        Debug.Log("Trying to play");
         // If the audio source is already in use, skip it
-        if (audioSource.isPlaying) return;
-        Debug.Log("Playing");
+        if (audioSource.isPlaying) return null;
 
+        audioSource.volume = volume;
         audioSource.loop = loop;
 
         audioSource.clip = clip;
@@ -38,17 +36,15 @@ public class AudioSourceExtended : Poolable<AudioSourceExtended>
 
         if (!loop)
         {
-            await ListenForPlayingEnd();
-            pool?.Release(this);
+            ReleaseOnPlayingEnd();
         }
 
+        return this;
     }
 
-    public async void Stop()
+    public void Stop()
     {
         audioSource.Stop();
-        await ListenForPlayingEnd();
-        pool?.Release(this);
     }
 
     public void SetVolume(float volume)
@@ -61,18 +57,21 @@ public class AudioSourceExtended : Poolable<AudioSourceExtended>
     {
         await UniTask.WaitUntil(() => audioSource.isPlaying == false);
         onEndedPlaying?.Invoke();
-        Debug.Log("Finished playing!");
+    }
+
+    private async void ReleaseOnPlayingEnd()
+    {
+        await ListenForPlayingEnd();
+        pool?.Release(this);
     }
 
     public override void OnPoolRelease()
     {
-        Debug.Log("Releasing");
         gameObject.SetActive(false);
     }
 
     public override void OnPoolGet()
     {
-        Debug.Log("Getting");
         gameObject.SetActive(true);
     }
 

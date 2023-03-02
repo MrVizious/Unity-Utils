@@ -14,7 +14,9 @@ namespace DesignPatterns
     public class Pool<T> where T : Poolable<T>
     {
         private T _prefab;
-        public List<T> activeObjects = new List<T>();
+        public HashSet<T> activeObjects = new HashSet<T>();
+        public HashSet<T> inactiveObjects = new HashSet<T>();
+        public HashSet<T> allObjects = new HashSet<T>();
 
         public ObjectPool<T> pool
         {
@@ -37,6 +39,8 @@ namespace DesignPatterns
                         newObject = (T)Poolable<T>.GetNewInstance(newObjectName, parent);
                     }
                     newObject.Init(this);
+                    inactiveObjects.Add(newObject);
+                    allObjects.Add(newObject);
                     return newObject;
                 },
                 obj =>
@@ -61,12 +65,14 @@ namespace DesignPatterns
         public T Get()
         {
             T obj = pool.Get();
+            inactiveObjects.Remove(obj);
             activeObjects.Add(obj);
             return obj;
         }
         public void Release(T obj)
         {
             activeObjects.Remove(obj);
+            inactiveObjects.Add(obj);
             pool.Release(obj);
         }
         #endregion
