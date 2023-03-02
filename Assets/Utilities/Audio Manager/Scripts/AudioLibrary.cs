@@ -3,8 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using RuntimeSet;
 
-[CreateAssetMenu(fileName = "AudioLibrary", menuName = "AudioManager/AudioLibrary", order = 0)]
-public class AudioLibrary : RuntimeSet<AudioClip>
+namespace Audio
 {
-    public int latestIndexUsed = -1;
+    public abstract class AudioLibrary : RuntimeSet<AudioClip>
+    {
+        public int latestIndexUsed = -1;
+        protected AudioClip selectedClip;
+
+        public AudioSourceExtended PlayMusic(AudioClip clip)
+        {
+            return AudioManager.Instance.PlayMusic(clip);
+        }
+        protected virtual void SetSelected(int index)
+        {
+            Debug.Log("Selecting index " + index);
+            selectedClip = index > 0 ? Items[index] : null;
+        }
+    }
+
 }

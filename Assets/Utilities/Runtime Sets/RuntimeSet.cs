@@ -2,12 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UltEvents;
+#if UNITY_EDITOR
+using EditorUtilities;
+#endif
 
 
 namespace RuntimeSet
 {
     public abstract class RuntimeSet<T> : ScriptableObject
     {
+#if UNITY_EDITOR
+        [ListItemSelector("SetSelected")]
+#endif
         public List<T> Items = new List<T>();
         public UltEvent<T> onItemAdded, onItemRemoved;
 
@@ -72,6 +78,26 @@ namespace RuntimeSet
             index = Random.Range(0, Items.Count);
             return GetAt(index);
         }
+        public virtual T GetRandomExcludingIndex(out int index, int indexToExclude)
+        {
+            if (indexToExclude >= Items.Count - 1)
+            {
+                index = 0;
+                return GetAt(0);
+            }
+            index = -1;
+            while (index == indexToExclude)
+            {
+                index = Random.Range(0, Items.Count);
+            }
+            return GetAt(index);
+        }
+        public virtual T GetRandomExcludingIndex(int indexToExclude)
+        {
+            return GetRandomExcludingIndex(out int dummy, indexToExclude);
+        }
+
+
 
 
     }

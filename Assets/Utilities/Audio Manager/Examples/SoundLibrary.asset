@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d69dfdf84f0e9514ca7b17eea6dc2fb2, type: 3}
+  m_Name: SoundLibrary
+  m_EditorClassIdentifier: 
+  Items: []
+  onItemAdded:
+    _PersistentCalls: []
+  onItemRemoved:
+    _PersistentCalls: []
+  latestIndexUsed: -1
+  minPitchRange: 0
+  maxPitchRange: 0

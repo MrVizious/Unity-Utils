@@ -6,73 +6,78 @@ using Cysharp.Threading.Tasks;
 using ExtensionMethods;
 using DesignPatterns;
 
-[RequireComponent(typeof(AudioSource))]
-public class AudioSourceExtended : Poolable<AudioSourceExtended>
+namespace Audio
 {
-    public AudioSource audioSource { get; private set; }
 
-    public UltEvent onEndedPlaying;
-    private void Awake()
+    [RequireComponent(typeof(AudioSource))]
+    public class AudioSourceExtended : Poolable<AudioSourceExtended>
     {
-        audioSource = gameObject.GetOrAddComponent<AudioSource>();
-        audioSource.playOnAwake = false;
-        if (onEndedPlaying == null)
+        public AudioSource audioSource { get; private set; }
+
+        public UltEvent onEndedPlaying;
+        private void Awake()
         {
-            onEndedPlaying = new UltEvent();
-        }
-    }
-
-    public AudioSourceExtended Play(AudioClip clip, float volume, bool loop = false, float minPitchRange = 1f, float maxPitchRange = 1f)
-    {
-        // If the audio source is already in use, skip it
-        if (audioSource.isPlaying) return null;
-
-        audioSource.volume = volume;
-        audioSource.loop = loop;
-
-        audioSource.clip = clip;
-        audioSource.pitch = Random.Range(minPitchRange, maxPitchRange);
-        audioSource.Play();
-
-        if (!loop)
-        {
-            ReleaseOnPlayingEnd();
+            audioSource = gameObject.GetOrAddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+            if (onEndedPlaying == null)
+            {
+                onEndedPlaying = new UltEvent();
+            }
         }
 
-        return this;
-    }
+        public AudioSourceExtended Play(AudioClip clip, float volume, bool loop = false, float minPitchRange = 1f, float maxPitchRange = 1f)
+        {
+            // If the audio source is already in use, skip it
+            if (audioSource.isPlaying) return null;
 
-    public void Stop()
-    {
-        audioSource.Stop();
-    }
+            audioSource.volume = volume;
+            audioSource.loop = loop;
 
-    public void SetVolume(float volume)
-    {
-        volume = Mathf.Clamp01(volume);
-        audioSource.volume = volume;
-    }
+            audioSource.clip = clip;
+            audioSource.pitch = Random.Range(minPitchRange, maxPitchRange);
+            audioSource.Play();
 
-    private async UniTask ListenForPlayingEnd()
-    {
-        await UniTask.WaitUntil(() => audioSource.isPlaying == false);
-        onEndedPlaying?.Invoke();
-    }
+            if (!loop)
+            {
+                ReleaseOnPlayingEnd();
+            }
 
-    private async void ReleaseOnPlayingEnd()
-    {
-        await ListenForPlayingEnd();
-        pool?.Release(this);
-    }
+            return this;
+        }
 
-    public override void OnPoolRelease()
-    {
-        gameObject.SetActive(false);
-    }
+        public void Stop()
+        {
+            audioSource.Stop();
+        }
 
-    public override void OnPoolGet()
-    {
-        gameObject.SetActive(true);
+        public void SetVolume(float volume)
+        {
+            volume = Mathf.Clamp01(volume);
+            audioSource.volume = volume;
+        }
+
+        private async UniTask ListenForPlayingEnd()
+        {
+            await UniTask.WaitUntil(() => audioSource.isPlaying == false);
+            onEndedPlaying?.Invoke();
+        }
+
+        private async void ReleaseOnPlayingEnd()
+        {
+            await ListenForPlayingEnd();
+            pool?.Release(this);
+        }
+
+        public override void OnPoolRelease()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public override void OnPoolGet()
+        {
+            gameObject.SetActive(true);
+        }
+
     }
 
 }
