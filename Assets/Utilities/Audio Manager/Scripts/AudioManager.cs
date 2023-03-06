@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
 using DesignPatterns;
-using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -71,23 +69,16 @@ namespace Audio
             }
         }
 
-        public AudioSourceExtended PlayMusic(AudioClip clip)
+        public AudioSourceExtended PlayMusic(AudioClip clip, float secondsToFadeIn = 0f, float secondsToFadeOut = 0f)
         {
             if (stopOnMuted && settings.SoundVolume <= 0f) return null;
-            AudioSourceExtended source = musicSources.Get();
-            if (mainMusicSource)
+            if (mainMusicSource != null && mainMusicSource.isActiveAndEnabled)
             {
                 mainMusicSource.Stop();
             }
+            AudioSourceExtended source = musicSources.Get();
             mainMusicSource = source;
-            if (settings == null)
-            {
-                return source.Play(clip, 1f, true);
-            }
-            else
-            {
-                return source.Play(clip, settings.MusicVolume, true);
-            }
+            return source.Play(clip, 1f, true, secondsToFadeIn: secondsToFadeIn, secondsToFadeOut: secondsToFadeOut);
         }
 
         public AudioSourceExtended PlaySound(AudioClip clip, float minPitchRange = 1f, float maxPitchRange = 1f)
@@ -96,17 +87,6 @@ namespace Audio
             if (stopOnMuted && settings.SoundVolume <= 0f) return null;
             AudioSourceExtended source = soundSources.Get();
             return source.Play(clip, settings.SoundVolume, minPitchRange: minPitchRange, maxPitchRange: maxPitchRange);
-        }
-
-        public AudioSourceExtended PlayRandomMusic(AudioLibrary library)
-        {
-            return PlayMusic(library.GetRandom());
-        }
-
-        public AudioSourceExtended PlayRandomSound(AudioLibrary library, float minPitchRange = 1f, float maxPitchRange = 1f)
-        {
-            AudioSourceExtended source = soundSources.Get();
-            return PlaySound(library.GetRandom(), minPitchRange: minPitchRange, maxPitchRange: maxPitchRange);
         }
 
         public void UpdateMasterVolume()

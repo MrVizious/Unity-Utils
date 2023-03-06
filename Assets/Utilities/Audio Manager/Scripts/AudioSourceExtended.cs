@@ -5,6 +5,7 @@ using UltEvents;
 using Cysharp.Threading.Tasks;
 using ExtensionMethods;
 using DesignPatterns;
+using Sirenix.OdinInspector;
 
 namespace Audio
 {
@@ -13,8 +14,11 @@ namespace Audio
     public class AudioSourceExtended : Poolable<AudioSourceExtended>
     {
         public AudioSource audioSource { get; private set; }
-
         public UltEvent onEndedPlaying;
+
+        private float targetVolume, secondsToFadeOut;
+        private bool fadingIn;
+
         private void Awake()
         {
             audioSource = gameObject.GetOrAddComponent<AudioSource>();
@@ -25,12 +29,14 @@ namespace Audio
             }
         }
 
-        public AudioSourceExtended Play(AudioClip clip, float volume, bool loop = false, float minPitchRange = 1f, float maxPitchRange = 1f)
+        public AudioSourceExtended Play(AudioClip clip, float volume, bool loop = false, float minPitchRange = 1f, float maxPitchRange = 1f, float secondsToFadeIn = 0f, float secondsToFadeOut = 0f)
         {
             // If the audio source is already in use, skip it
             if (audioSource.isPlaying) return null;
 
-            audioSource.volume = volume;
+            targetVolume = volume;
+            FadeIn(secondsToFadeIn);
+            this.secondsToFadeOut = secondsToFadeOut;
             audioSource.loop = loop;
 
             audioSource.clip = clip;
@@ -45,16 +51,26 @@ namespace Audio
             return this;
         }
 
-        public void Stop()
+        [Button]
+        public async void Stop()
         {
-            audioSource.Stop();
+            await FadeOut(secondsToFadeOut);
+            pool?.Release(this);
+        }
+
+        [Button]
+        public void StopImmediately()
+        {
             pool?.Release(this);
         }
 
         public void SetVolume(float volume)
         {
             volume = Mathf.Clamp01(volume);
+            float ratio = volume / audioSource.volume;
             audioSource.volume = volume;
+            targetVolume *= ratio;
+            targetVolume = Mathf.Clamp01(targetVolume);
         }
 
         private async UniTask ListenForPlayingEnd()
@@ -71,14 +87,48 @@ namespace Audio
 
         public override void OnPoolRelease()
         {
+            Debug.Log("Deactivating");
             gameObject.SetActive(false);
         }
 
         public override void OnPoolGet()
         {
+            Debug.Log("Activating");
             gameObject.SetActive(true);
         }
 
+        private async UniTaskVoid FadeIn(float secondsToFade)
+        {
+            fadingIn = true;
+            if (secondsToFade <= 0f)
+            {
+                Debug.Log("Fading with 0");
+                audioSource.volume = targetVolume;
+                return;
+            }
+            audioSource.volume = 0f;
+            float step = targetVolume / secondsToFade;
+            while (audioSource.volume < targetVolume)
+            {
+                if (!fadingIn) return;
+                audioSource.volume += step * Time.deltaTime;
+                await UniTask.Yield();
+            }
+            audioSource.volume = targetVolume;
+        }
+
+        private async UniTask FadeOut(float secondsToFade)
+        {
+            if (fadingIn) fadingIn = false;
+            float step = audioSource.volume / secondsToFade;
+            while (audioSource.volume > 0f)
+            {
+                audioSource.volume -= step * Time.deltaTime;
+                await UniTask.Yield();
+            }
+            audioSource.volume = 0f;
+            audioSource.Stop();
+        }
     }
 
 }
