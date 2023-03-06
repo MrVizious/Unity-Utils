@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 namespace Audio
 {
 
-    [CreateAssetMenu(fileName = "SoundLibrary", menuName = "AudioManager/AudioLibrary/SoundLibrary", order = 0)]
+    [CreateAssetMenu(fileName = "SoundLibrary", menuName = "AudioManager/AudioLibrary/SoundLibrary", order = 1)]
     public class SoundLibrary : AudioLibrary
     {
         public float minPitchRange = 1f, maxPitchRange = 1f;

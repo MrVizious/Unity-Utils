@@ -44,8 +44,9 @@ namespace Audio
         private Transform musicParent, soundParent;
         private Pool<AudioSourceExtended> musicSources, soundSources;
         private AudioSourceExtended mainMusicSource;
-        private void Start()
+        private new void Awake()
         {
+            base.Awake();
             // Start GameObjects
             musicParent = new GameObject("Musics").transform;
             musicParent.parent = transform;

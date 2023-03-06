@@ -48,6 +48,7 @@ namespace Audio
         public void Stop()
         {
             audioSource.Stop();
+            pool?.Release(this);
         }
 
         public void SetVolume(float volume)

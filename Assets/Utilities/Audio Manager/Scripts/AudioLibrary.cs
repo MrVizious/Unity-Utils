@@ -10,9 +10,13 @@ namespace Audio
         public int latestIndexUsed = -1;
         protected AudioClip selectedClip;
 
-        public AudioSourceExtended PlayMusic(AudioClip clip)
+        public virtual AudioSourceExtended PlayMusic(AudioClip clip)
         {
             return AudioManager.Instance.PlayMusic(clip);
+        }
+        public virtual AudioSourceExtended PlaySound(AudioClip clip, float minPitchRange = 1f, float maxPitchRange = 1f)
+        {
+            return AudioManager.Instance.PlaySound(clip, minPitchRange, maxPitchRange);
         }
         protected virtual void SetSelected(int index)
         {
