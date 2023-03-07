@@ -8,7 +8,7 @@ namespace DesignPatterns
     /// Usage: public class ExampleStateMachine : StateMachine<ExampleState> { ... }
     /// </summary>
     /// <typeparam name="T">State type</typeparam>
-    public abstract class StateMachine<T> : MonoBehaviour where T : State
+    public abstract class StateMachine<T> : MonoBehaviour where T : State<T>
     {
         protected Stack<T> stateStack;
         protected T currentState;

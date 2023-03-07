@@ -7,10 +7,10 @@ namespace DesignPatterns
     /// <summary>
     /// example	: '''public class MyClass : State<MyClass> { ... }'''
     /// </summary>
-    public abstract class State : MonoBehaviour
+    public abstract class State<T> : MonoBehaviour where T : State<T>
     {
-        protected StateMachine<State> _stateMachine;
-        public StateMachine<State> stateMachine
+        protected StateMachine<T> _stateMachine;
+        public StateMachine<T> stateMachine
         {
             get
             {
@@ -23,7 +23,10 @@ namespace DesignPatterns
             }
         }
 
-        public abstract void Enter();
-        public abstract void Exit();
+        public virtual void Enter(StateMachine<T> newStateMachine)
+        {
+            stateMachine = newStateMachine;
+        }
+        public virtual void Exit(StateMachine<T> newStateMachine) { }
     }
 }
