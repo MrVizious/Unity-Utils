@@ -28,6 +28,7 @@ namespace Audio
                     _settings = ScriptableObject.CreateInstance<AudioSettings>();
                     _settings.name = "AudioSettings";
 #if UNITY_EDITOR
+                    AssetDatabase.CreateFolder("Assets", "Settings");
                     AssetDatabase.CreateAsset(_settings, "Assets/Settings/AudioSettingsAuto.asset");
 #endif
                 }

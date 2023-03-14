@@ -16,10 +16,10 @@ namespace Audio
         public AudioType audioType;
 
         [ShowIf("audioType", AudioType.Sound)]
-        public float minPitchRange, maxPitchRange;
+        public float minPitchRange = 1f, maxPitchRange = 1f;
 
         [ShowIf("audioType", AudioType.Music)]
-        public float secondsToFadeIn, secondsToFadeOut;
+        public float secondsToFadeIn = 0f, secondsToFadeOut = 0f;
 
         [Button]
         public void Invoke()

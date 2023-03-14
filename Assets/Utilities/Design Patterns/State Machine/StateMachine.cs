@@ -13,6 +13,10 @@ namespace DesignPatterns
         public Stack<T> stateStack { get; protected set; }
         public T currentState { get; protected set; }
 
+        protected virtual void Awake()
+        {
+            stateStack = new Stack<T>();
+        }
         public virtual void ChangeToState(T newState)
         {
             if (newState == null) Debug.LogError("New State to change into is null!");
