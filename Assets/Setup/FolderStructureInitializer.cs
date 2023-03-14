@@ -11,10 +11,7 @@ public static class FolderStructureInitializer
     {
         if (!SessionState.GetBool("FirstInitDone", false))
         {
-            // Startup code here...
-            Debug.Log("First Init.");
             FolderCreation();
-
             SessionState.SetBool("FirstInitDone", true);
         }
     }
