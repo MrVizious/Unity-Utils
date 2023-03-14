@@ -7,26 +7,11 @@ namespace DesignPatterns
     /// <summary>
     /// example	: '''public class MyClass : State<MyClass> { ... }'''
     /// </summary>
-    public abstract class State<T> : MonoBehaviour where T : State<T>
+    public interface State<T> where T : State<T>
     {
-        protected StateMachine<T> _stateMachine;
-        public StateMachine<T> stateMachine
-        {
-            get
-            {
-                return _stateMachine;
-            }
-            set
-            {
-                if (value == null) return;
-                _stateMachine = value;
-            }
-        }
+        StateMachine<T> stateMachine { get; }
 
-        public virtual void Enter(StateMachine<T> newStateMachine)
-        {
-            stateMachine = newStateMachine;
-        }
-        public virtual void Exit(StateMachine<T> newStateMachine) { }
+        void Enter(StateMachine<T> newStateMachine);
+        void Exit();
     }
 }
