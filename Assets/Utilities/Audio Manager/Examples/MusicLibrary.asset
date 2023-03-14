@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Items:
   - {fileID: 8300000, guid: 89f420240f236954e86ad73e02ee8b96, type: 3}
-  - {fileID: 8300000, guid: c805f15ffaa4c9040954d24d4dba045d, type: 3}
   onItemAdded:
     _PersistentCalls: []
   onItemRemoved:
     _PersistentCalls: []
   latestIndexUsed: 0
+  secondsToFadeIn: 10
+  secondsToFadeOut: 3
