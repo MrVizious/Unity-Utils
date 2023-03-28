@@ -36,9 +36,7 @@ namespace Audio
 
             targetVolume = volume;
 
-#pragma warning disable CS4014
-            FadeIn(secondsToFadeIn);
-#pragma warning restore CS4014
+            FadeIn(secondsToFadeIn).Forget();
 
             this.secondsToFadeOut = secondsToFadeOut;
             audioSource.loop = loop;

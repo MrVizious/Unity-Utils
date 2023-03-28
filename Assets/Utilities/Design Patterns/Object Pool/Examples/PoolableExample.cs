@@ -1,6 +1,7 @@
 using System.Collections;
 using DesignPatterns;
 using UtilityMethods;
+using Cysharp.Threading.Tasks;
 
 public class PoolableExample : Poolable<PoolableExample>
 {
@@ -8,9 +9,7 @@ public class PoolableExample : Poolable<PoolableExample>
     {
         gameObject.SetActive(true);
         // This is just so the Unity Console doesn't produce a warning
-#pragma warning disable 4014
-        UniTaskMethods.DelayedFunction(() => { Release(); }, 2);
-#pragma warning disable 4014
+        UniTaskMethods.DelayedFunction(() => { Release(); }, 2).Forget();
     }
 
     public override void OnPoolRelease()

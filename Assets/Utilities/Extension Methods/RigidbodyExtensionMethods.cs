@@ -28,5 +28,15 @@ namespace ExtensionMethods
         {
             rb.velocity = Vector3.zero;
         }
+
+        public static void MovePositionInDirection(this Rigidbody rb, Vector3 direction)
+        {
+            rb.MovePosition(rb.transform.position + direction);
+        }
+
+        public static void MovePositionInDirection(this Rigidbody2D rb, Vector2 direction)
+        {
+            rb.MovePosition(rb.transform.position + (Vector3)direction);
+        }
     }
 }
