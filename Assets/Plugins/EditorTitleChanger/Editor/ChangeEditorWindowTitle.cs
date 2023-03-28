@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR_WIN
+using System;
 using System.Linq;
 using UnityEditor;
 using System.Reflection;
@@ -45,3 +46,4 @@ namespace MainWindowTitleModifier
         }
     }
 }
+#endif
