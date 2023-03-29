@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 namespace ExtensionMethods
 {
@@ -11,16 +12,27 @@ namespace ExtensionMethods
             return component;
         }
 
+        public static Component GetOrAddComponent(this GameObject gameObject, Type t)
+        {
+            var component = gameObject.GetComponent(t);
+            if (component == null) gameObject.AddComponent(t);
+            return component;
+        }
+
         public static bool HasComponent<T>(this GameObject gameObject) where T : Behaviour
         {
             return gameObject.GetComponent<T>() != null;
+        }
+        public static bool HasComponent(this GameObject gameObject, Type t)
+        {
+            return gameObject.GetComponent(t) != null;
         }
 
         public static void DestroyChildren(this GameObject gameObject)
         {
             for (var i = gameObject.transform.childCount - 1; i >= 0; i--)
             {
-                Object.Destroy(gameObject.transform.GetChild(i).gameObject);
+                UnityEngine.Object.Destroy(gameObject.transform.GetChild(i).gameObject);
             }
         }
 
