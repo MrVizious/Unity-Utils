@@ -62,9 +62,15 @@ namespace DesignPatterns
         public virtual void SubstituteStateWith(T newState)
         {
             if (newState == null) Debug.LogError("New State to substitute into is null!");
+            if (previousState.Equals(newState))
+            {
+                ChangeToPreviousState();
+                return;
+            }
             currentState?.Exit();
             currentState = newState;
             currentState.Enter(this);
         }
+
     }
 }
