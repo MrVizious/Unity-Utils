@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 namespace ExtensionMethods
 {
@@ -42,6 +43,26 @@ namespace ExtensionMethods
             {
                 gameObject.transform.GetChild(i).gameObject.SetActive(newValue);
             }
+        }
+
+        public static T[] GetComponentsInChildrenExcludingParent<T>(this GameObject gameObject) where T : Component
+        {
+            T[] allComponents = gameObject.GetComponentsInChildren<T>();
+            List<T> listedComponents = new List<T>(allComponents);
+
+            for (int i = listedComponents.Count - 1; i >= 0; i--)
+            {
+                if (listedComponents[i].gameObject == gameObject) listedComponents.Remove(listedComponents[i]);
+            }
+
+            return listedComponents.ToArray();
+        }
+
+        public static T GetComponentInChildrenExcludingParent<T>(this GameObject gameObject) where T : Component
+        {
+            T[] components = gameObject.GetComponentsInChildrenExcludingParent<T>();
+            if (components.Length > 0) return components[0];
+            return null;
         }
     }
 }

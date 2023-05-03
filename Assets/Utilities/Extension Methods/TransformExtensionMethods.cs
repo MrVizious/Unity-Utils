@@ -27,5 +27,13 @@ namespace ExtensionMethods
                 transform.GetChild(i).gameObject.SetActive(newValue);
             }
         }
+        public static T[] GetComponentsInChildrenExcludingParent<T>(this Transform transform) where T : Component
+        {
+            return transform.gameObject.GetComponentsInChildrenExcludingParent<T>();
+        }
+        public static T GetComponentInChildrenExcludingParent<T>(this Transform transform) where T : Component
+        {
+            return transform.gameObject.GetComponentInChildrenExcludingParent<T>();
+        }
     }
 }

@@ -26,9 +26,19 @@ namespace ExtensionMethods
             return component.GetComponent(t) ?? component.AddComponent(t);
         }
 
-        public static bool HasComponent<T>(this GameObject gameObject) where T : Component
+        public static bool HasComponent<T>(this Component component) where T : Component
         {
-            return gameObject.GetComponent<T>() != null;
+            return component.GetComponent<T>() != null;
         }
+
+        public static T[] GetComponentsInChildrenExcludingParent<T>(this Component component) where T : Component
+        {
+            return component.gameObject.GetComponentsInChildrenExcludingParent<T>();
+        }
+        public static T GetComponentInChildrenExcludingParent<T>(this Component component) where T : Component
+        {
+            return component.gameObject.GetComponentInChildrenExcludingParent<T>();
+        }
+
     }
 }
