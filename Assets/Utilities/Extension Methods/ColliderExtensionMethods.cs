@@ -14,5 +14,13 @@ namespace ExtensionMethods
         {
             return (collider.ClosestPoint(point) - point).sqrMagnitude < Mathf.Epsilon * Mathf.Epsilon;
         }
+        public static bool LayerIsInside(this Collider collider, LayerMask layerMask)
+        {
+            return layerMask == (1 << collider.gameObject.layer);
+        }
+        public static bool LayerIsInside(this Collider2D collider, LayerMask layerMask)
+        {
+            return layerMask == (1 << collider.gameObject.layer);
+        }
     }
 }
