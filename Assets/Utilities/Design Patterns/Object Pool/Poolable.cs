@@ -20,6 +20,12 @@ namespace DesignPatterns
         public virtual void OnPoolDestroy() { }
         public virtual void Release()
         {
+            if (pool == null)
+            {
+                OnPoolRelease();
+                return;
+            }
+
             pool.Release((T)this);
         }
     }
