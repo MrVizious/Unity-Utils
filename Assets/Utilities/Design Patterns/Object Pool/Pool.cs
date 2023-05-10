@@ -11,7 +11,7 @@ namespace DesignPatterns
     /// Source: https://github.com/Matthew-J-Spencer/Object-Pooler
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class Pool<T> where T : Poolable<T>
+    public class Pool<T> where T : Poolable
     {
         private T _prefab;
         public HashSet<T> activeObjects = new HashSet<T>();
@@ -36,9 +36,10 @@ namespace DesignPatterns
                     }
                     else
                     {
-                        newObject = (T)Poolable<T>.GetNewInstance(newObjectName, parent);
+                        newObject = GetNewInstance(newObjectName, parent);
                     }
-                    newObject.Init(this);
+                    // Subscribe and unsubscribe
+                    newObject.onRelease += () => Release(newObject);
                     inactiveObjects.Add(newObject);
                     allObjects.Add(newObject);
                     return newObject;
@@ -59,6 +60,14 @@ namespace DesignPatterns
                 collectionCheck,
                 defaultCapacity,
                 maxSize);
+        }
+
+
+        public T GetNewInstance(string newName = "New Pooled Object", Transform newParent = null)
+        {
+            GameObject go = new GameObject(newName);
+            go.transform.SetParent(newParent);
+            return go.AddComponent<T>();
         }
 
         #region Getters

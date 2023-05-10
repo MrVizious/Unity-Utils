@@ -3,7 +3,7 @@ using DesignPatterns;
 using UtilityMethods;
 using Cysharp.Threading.Tasks;
 
-public class PoolableExample : Poolable<PoolableExample>
+public class PoolableExample : Poolable
 {
     public override void OnPoolGet()
     {

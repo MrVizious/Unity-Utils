@@ -11,7 +11,7 @@ namespace Audio
 {
 
     [RequireComponent(typeof(AudioSource))]
-    public class AudioSourceExtended : Poolable<AudioSourceExtended>
+    public class AudioSourceExtended : Poolable
     {
         public AudioSource audioSource { get; private set; }
         public UltEvent onEndedPlaying;
@@ -57,13 +57,13 @@ namespace Audio
         public async void Stop()
         {
             await FadeOut(secondsToFadeOut);
-            pool?.Release(this);
+            Release();
         }
 
         [Button]
         public void StopImmediately()
         {
-            pool?.Release(this);
+            Release();
         }
 
         public void SetVolume(float volume)
@@ -84,7 +84,7 @@ namespace Audio
         private async void ReleaseOnPlayingEnd()
         {
             await ListenForPlayingEnd();
-            pool?.Release(this);
+            Release();
         }
 
         public override void OnPoolRelease()

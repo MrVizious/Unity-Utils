@@ -1,32 +1,19 @@
 using UnityEngine;
+using UnityEngine.Events;
+using UltEvents;
 
 namespace DesignPatterns
 {
-    public abstract class Poolable<T> : MonoBehaviour where T : Poolable<T>
+    public abstract class Poolable : MonoBehaviour
     {
-        protected Pool<T> pool;
-        public virtual void Init(Pool<T> newPool)
-        {
-            pool = newPool;
-        }
-        public static T GetNewInstance(string newName = "New Pooled Object", Transform newParent = null)
-        {
-            GameObject go = new GameObject(newName);
-            go.transform.SetParent(newParent);
-            return go.AddComponent<T>();
-        }
         public virtual void OnPoolGet() { }
         public virtual void OnPoolRelease() { }
         public virtual void OnPoolDestroy() { }
+        public delegate void ReleaseEvent();
+        public UltEvent onRelease;
         public virtual void Release()
         {
-            if (pool == null)
-            {
-                OnPoolRelease();
-                return;
-            }
-
-            pool.Release((T)this);
+            onRelease.Invoke();
         }
     }
 }
