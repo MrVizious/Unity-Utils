@@ -11,7 +11,7 @@ namespace DesignPatterns
     /// Source: https://github.com/Matthew-J-Spencer/Object-Pooler
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class Pool<T> where T : PoolableGO
+    public class Pool<T> where T : Poolable
     {
         private T _prefab;
         public HashSet<T> activeObjects = new HashSet<T>();

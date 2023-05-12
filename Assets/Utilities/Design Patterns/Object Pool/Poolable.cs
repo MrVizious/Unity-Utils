@@ -4,12 +4,12 @@ using UltEvents;
 
 namespace DesignPatterns
 {
-    public abstract class PoolableGO : MonoBehaviour, IPoolable
+    public abstract class Poolable : MonoBehaviour
     {
         public virtual void OnPoolGet() { }
         public virtual void OnPoolRelease() { }
         public virtual void OnPoolDestroy() { }
-        public UltEvent onRelease { get; set; }
+        public UltEvent onRelease;
         public virtual void Release()
         {
             onRelease.Invoke();
