@@ -11,7 +11,7 @@ namespace Audio
 {
 
     [RequireComponent(typeof(AudioSource))]
-    public class AudioSourceExtended : Poolable
+    public class AudioSourceExtended : PoolableGO
     {
         public AudioSource audioSource { get; private set; }
         public UltEvent onEndedPlaying;
