@@ -9,9 +9,7 @@ public class NonRaycastableTransparencyImage : Image
     protected override void OnEnable()
     {
         base.OnEnable();
-        Image img = GetComponent<Image>();
-        if (img == null) return;
-        img.alphaHitTestMinimumThreshold = 0.001f;
+        alphaHitTestMinimumThreshold = 0.001f;
     }
     public override bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
     {
