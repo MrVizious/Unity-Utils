@@ -68,6 +68,22 @@ namespace ExtensionMethods
 
             return closest;
         }
+
+        /// <summary>
+        /// Returns the angle in a left hand system between two angles
+        /// </summary>
+        /// <param name="firstVector"></param>
+        /// <param name="secondVector"></param>
+        /// <returns></returns>
+        public static float Angle360To(this Vector2 firstVector, Vector2 secondVector)
+        {
+            float signedAngle = Vector2.SignedAngle(secondVector, firstVector);
+            if (signedAngle < 0)
+            {
+                signedAngle = 360 + signedAngle;
+            }
+            return signedAngle;
+        }
         #endregion
 
 
