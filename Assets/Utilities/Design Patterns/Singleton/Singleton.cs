@@ -38,6 +38,7 @@ namespace DesignPatterns
         {
             get
             {
+                // If there is not an existing singleton instance
                 if (_instance == null)
                 {
                     _instance = (T)FindObjectOfType(typeof(T));
@@ -60,8 +61,12 @@ namespace DesignPatterns
 
         protected void Awake()
         {
-            T _instace = Instance;
-            if (dontDestroyOnLoad) DontDestroyOnLoad(_instance);
+            if (Instance != this)
+            {
+                Destroy(_instance.gameObject);
+                _instance = GetComponent<T>();
+            }
+            if (dontDestroyOnLoad) DontDestroyOnLoad(Singleton<T>._instance);
         }
 
         /// <summary>
