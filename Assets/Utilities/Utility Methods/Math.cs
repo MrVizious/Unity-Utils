@@ -1,3 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TypeReferences;
 namespace UtilityMethods
 {
     public static class Math
@@ -17,6 +21,17 @@ namespace UtilityMethods
                                   float outputMinValue, float outputMaxValue)
         {
             return (value - inputMinValue) / (inputMaxValue - inputMinValue) * (outputMaxValue - outputMinValue) + outputMinValue;
+        }
+
+        public static Vector2 PolarToCartesianClockwise(float radius, float angle)
+        {
+            return PolarToCartesianCounterclockwise(radius, -angle);
+        }
+        public static Vector2 PolarToCartesianCounterclockwise(float radius, float angle)
+        {
+            angle = angle * Mathf.Deg2Rad;
+            Vector2 returnVector = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+            return returnVector * radius;
         }
     }
 
