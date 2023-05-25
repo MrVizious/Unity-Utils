@@ -9,14 +9,14 @@ namespace ExtensionMethods
         public static T GetOrAddComponent<T>(this GameObject gameObject) where T : Behaviour
         {
             var component = gameObject.GetComponent<T>();
-            if (component == null) gameObject.AddComponent<T>();
+            if (component == null) component = gameObject.AddComponent<T>();
             return component;
         }
 
         public static Component GetOrAddComponent(this GameObject gameObject, Type t)
         {
             var component = gameObject.GetComponent(t);
-            if (component == null) gameObject.AddComponent(t);
+            if (component == null) component = gameObject.AddComponent(t);
             return component;
         }
 
