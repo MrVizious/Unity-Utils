@@ -32,6 +32,22 @@ namespace UtilityMethods
             Vector2 returnVector = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
             return returnVector * radius;
         }
+
+        public static Vector3 RandomPointOnPlane(Vector3 position, Vector3 normal, float radius)
+        {
+            Vector3 randomPoint;
+
+            do
+            {
+                randomPoint = Vector3.Cross(Random.insideUnitSphere, normal);
+            } while (randomPoint == Vector3.zero);
+
+            randomPoint.Normalize();
+            randomPoint *= radius;
+            randomPoint += position;
+
+            return randomPoint;
+        }
     }
 
 }
