@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.coffee.unmask": {
+      "version": "https://github.com/mob-sakai/UnmaskForUGUI.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "a276ef6e7eaba3a265abb9dd2fbd981ad2ef2cc3"
+    },
     "com.cysharp.unitask": {
       "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
       "depth": 0,
