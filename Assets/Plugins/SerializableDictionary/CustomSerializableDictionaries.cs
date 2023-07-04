@@ -20,6 +20,8 @@ namespace SerializableDictionaries
     [Serializable]
     public class ScriptableObjectFloatDictionary : SerializableDictionary<ScriptableObject, float> { }
 
+    //
+
     //[Serializable]
     //public class ColorArrayStorage : SerializableDictionary.Storage<Color[]> { }
 
