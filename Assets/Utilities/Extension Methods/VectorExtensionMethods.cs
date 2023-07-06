@@ -84,6 +84,22 @@ namespace ExtensionMethods
             }
             return signedAngle;
         }
+
+
+        /// <summary>
+        /// Turns a Vector3 array into a Vector2 array
+        /// </summary>
+        /// <param name="v3"></param>
+        /// <returns></returns>
+        public static Vector2[] toVector2Array(this Vector3[] v3)
+        {
+            return System.Array.ConvertAll<Vector3, Vector2>(v3, toVector2);
+        }
+
+        public static Vector2 toVector2(Vector3 v3)
+        {
+            return new Vector2(v3.x, v3.y);
+        }
         #endregion
 
 
@@ -156,6 +172,22 @@ namespace ExtensionMethods
             }
 
             return closest;
+        }
+
+
+        /// <summary>
+        /// Turns a Vector3 array into a Vector2 array
+        /// </summary>
+        /// <param name="v3"></param>
+        /// <returns></returns>
+        public static Vector3[] toVector3Array(this Vector2[] v2)
+        {
+            return System.Array.ConvertAll<Vector2, Vector3>(v2, toVector3);
+        }
+
+        public static Vector3 toVector3(Vector2 v2)
+        {
+            return new Vector3(v2.x, v2.y, 0f);
         }
         #endregion
     }
