@@ -12,7 +12,7 @@ namespace DesignPatterns
         public void AddEvent(QueueableEvent newEvent)
         {
             nextEvents.Add(newEvent);
-            newEvent.Setup();
+            newEvent.Setup(this);
             newEvent.onCanceled.AddListener(() => nextEvents.Remove(newEvent));
         }
 
@@ -26,13 +26,11 @@ namespace DesignPatterns
             currentEvent.End();
         }
 
-        private void ExecuteNextEvent()
+        public void ExecuteNextEvent()
         {
-            if (nextEvents.Count >= 1)
-            {
-                currentEvent = nextEvents[0];
-                nextEvents.RemoveAt(0);
-            }
+            if (nextEvents.Count < 1) return;
+            currentEvent = nextEvents[0];
+            nextEvents.RemoveAt(0);
             ExecuteCurrentEvent();
         }
 

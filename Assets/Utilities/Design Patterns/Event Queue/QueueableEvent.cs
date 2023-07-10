@@ -9,14 +9,20 @@ namespace DesignPatterns
     {
         public UnityEvent onEnded = new UnityEvent();
         public UnityEvent onCanceled = new UnityEvent();
-        public virtual void Setup() { }
+        public EventQueue queue;
         public virtual void Execute() { }
+        public virtual void Setup(EventQueue newQueue)
+        {
+            queue = newQueue;
+        }
         public virtual void End()
         {
             onEnded.Invoke();
+            Destroy(this);
         }
         public virtual void Cancel()
         {
+            StopAllCoroutines();
             onCanceled.Invoke();
         }
     }
