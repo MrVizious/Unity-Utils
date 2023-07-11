@@ -17,7 +17,6 @@ namespace DesignPatterns
         }
         public virtual void End()
         {
-            Debug.Log("Ending event " + this);
             Destroy(this);
             onEnded.Invoke();
         }

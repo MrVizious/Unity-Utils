@@ -65,7 +65,6 @@ namespace DesignPatterns
             if (nextEvents.Count <= 0)
             {
                 onQueueEmpty.Invoke();
-                Debug.Log("Empty queue");
             }
         }
     }
