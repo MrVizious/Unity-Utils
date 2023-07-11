@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using Sirenix.OdinInspector;
 
 namespace DesignPatterns
 {
     public class EventQueue : MonoBehaviour
     {
+        public UnityEvent onQueueEmpty = new UnityEvent();
         public QueueableEvent currentEvent;
         public List<QueueableEvent> nextEvents = new List<QueueableEvent>();
 
@@ -14,6 +17,7 @@ namespace DesignPatterns
             nextEvents.Add(newEvent);
             newEvent.Setup(this);
             newEvent.onCanceled.AddListener(() => nextEvents.Remove(newEvent));
+            currentEvent?.onEnded.RemoveListener(OnCurrentEventEnded);
         }
 
         public void ImmediatelyExecute(QueueableEvent newEvent)
@@ -24,8 +28,11 @@ namespace DesignPatterns
             }
             nextEvents.Clear();
             currentEvent.End();
+            AddEvent(newEvent);
+            ExecuteNextEvent();
         }
 
+        [Button]
         public void ExecuteNextEvent()
         {
             if (nextEvents.Count < 1) return;
@@ -37,7 +44,17 @@ namespace DesignPatterns
         private void ExecuteCurrentEvent()
         {
             currentEvent.Execute();
+            currentEvent.onEnded.AddListener(OnCurrentEventEnded);
             currentEvent.onEnded.AddListener(ExecuteNextEvent);
+        }
+
+        private void OnCurrentEventEnded()
+        {
+            if (nextEvents.Count == 0)
+            {
+                onQueueEmpty.Invoke();
+                Debug.Log("Empty queue");
+            }
         }
     }
 }
