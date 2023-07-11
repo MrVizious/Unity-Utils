@@ -18,14 +18,14 @@ namespace DesignPatterns
         public virtual void End()
         {
             Debug.Log("Ending event " + this);
-            onEnded.Invoke();
             Destroy(this);
+            onEnded.Invoke();
         }
         public virtual void Cancel()
         {
             StopAllCoroutines();
-            onCanceled.Invoke();
             Destroy(this);
+            onCanceled.Invoke();
         }
     }
 }

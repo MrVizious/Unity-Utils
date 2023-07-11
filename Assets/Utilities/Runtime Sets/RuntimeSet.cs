@@ -75,7 +75,14 @@ namespace RuntimeSet
         }
         public virtual T GetRandom(out int index)
         {
-            index = Random.Range(0, Items.Count);
+            if (Items.Count <= 0)
+            {
+                index = -1;
+            }
+            else
+            {
+                index = Random.Range(0, Items.Count);
+            }
             return GetAt(index);
         }
         public virtual T GetRandomExcludingIndex(out int index, int indexToExclude)
@@ -95,6 +102,13 @@ namespace RuntimeSet
         public virtual T GetRandomExcludingIndex(int indexToExclude)
         {
             return GetRandomExcludingIndex(out int dummy, indexToExclude);
+        }
+
+        public virtual T GetRandomExluding(T itemToExclude)
+        {
+            int index = -1;
+            if (Items.Contains(itemToExclude)) index = Items.IndexOf(itemToExclude);
+            return GetRandomExcludingIndex(index);
         }
 
 

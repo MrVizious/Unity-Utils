@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
+using Cysharp.Threading.Tasks;
 
 namespace DesignPatterns
 {
     public class EventQueue : MonoBehaviour
     {
+        public bool isRunning => currentEvent != null;
         public UnityEvent onQueueEmpty = new UnityEvent();
         public QueueableEvent currentEvent;
         public List<QueueableEvent> nextEvents = new List<QueueableEvent>();
@@ -35,7 +37,16 @@ namespace DesignPatterns
         [Button]
         public void ExecuteNextEvent()
         {
-            if (nextEvents.Count < 1) return;
+            if (isRunning)
+            {
+                Debug.Log("Already running!");
+                return;
+            }
+            if (nextEvents.Count <= 0)
+            {
+                Debug.Log("There are no next events");
+                return;
+            }
             currentEvent = nextEvents[0];
             nextEvents.RemoveAt(0);
             ExecuteCurrentEvent();
@@ -50,7 +61,8 @@ namespace DesignPatterns
 
         private void OnCurrentEventEnded()
         {
-            if (nextEvents.Count == 0)
+            currentEvent = null;
+            if (nextEvents.Count <= 0)
             {
                 onQueueEmpty.Invoke();
                 Debug.Log("Empty queue");
