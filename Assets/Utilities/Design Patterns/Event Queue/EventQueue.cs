@@ -24,14 +24,19 @@ namespace DesignPatterns
 
         public void ImmediatelyExecute(QueueableEvent newEvent)
         {
-            foreach (QueueableEvent currentEvent in nextEvents)
-            {
-                currentEvent.End();
-            }
-            nextEvents.Clear();
-            currentEvent.End();
+            Clear();
             AddEvent(newEvent);
             ExecuteNextEvent();
+        }
+
+        public void Clear()
+        {
+            foreach (QueueableEvent currentEvent in nextEvents)
+            {
+                currentEvent.Cancel();
+            }
+            nextEvents.Clear();
+            currentEvent.Cancel();
         }
 
         [Button]
