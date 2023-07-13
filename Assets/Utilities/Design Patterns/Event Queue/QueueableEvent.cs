@@ -23,6 +23,7 @@ namespace DesignPatterns
         public virtual void Cancel()
         {
             StopAllCoroutines();
+            Debug.Log("Canceled event");
             Destroy(this);
             onCanceled.Invoke();
         }

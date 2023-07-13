@@ -31,9 +31,9 @@ namespace DesignPatterns
 
         public void Clear()
         {
-            foreach (QueueableEvent currentEvent in nextEvents)
+            for (int i = nextEvents.Count - 1; i >= 0; i--)
             {
-                currentEvent.Cancel();
+                nextEvents[i].Cancel();
             }
             nextEvents.Clear();
             currentEvent.Cancel();
