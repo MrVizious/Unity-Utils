@@ -36,7 +36,7 @@ namespace DesignPatterns
                 nextEvents[i].Cancel();
             }
             nextEvents.Clear();
-            currentEvent.Cancel();
+            currentEvent?.Cancel();
         }
 
         [Button]
@@ -44,7 +44,7 @@ namespace DesignPatterns
         {
             if (isRunning)
             {
-                Debug.Log("Already running!");
+                Debug.Log("Already running!", gameObject);
                 return;
             }
             if (nextEvents.Count <= 0)
@@ -59,6 +59,11 @@ namespace DesignPatterns
 
         private void ExecuteCurrentEvent()
         {
+            if (currentEvent == null)
+            {
+                Debug.Log("There is no current event!");
+                return;
+            }
             currentEvent.Execute();
             currentEvent.onEnded.AddListener(OnCurrentEventEnded);
             currentEvent.onEnded.AddListener(ExecuteNextEvent);
