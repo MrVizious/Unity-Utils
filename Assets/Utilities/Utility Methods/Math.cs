@@ -48,6 +48,18 @@ namespace UtilityMethods
 
             return randomPoint;
         }
+
+        public static bool ProbabilityCheck(int successPercentage)
+        {
+            int randomNumber = Random.Range(0, 101);
+            return randomNumber <= successPercentage;
+        }
+
+        public static bool ProbabilityCheck(int successThreshold, int totalChance)
+        {
+            int randomNumber = Random.Range(0, totalChance + 1);
+            return randomNumber <= successThreshold;
+        }
     }
 
 }
