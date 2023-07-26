@@ -59,7 +59,7 @@ namespace DesignPatterns
             }
         }
 
-        protected void Awake()
+        protected virtual void Awake()
         {
             if (Instance != this)
             {

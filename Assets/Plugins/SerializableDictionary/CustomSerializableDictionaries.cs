@@ -20,6 +20,12 @@ namespace SerializableDictionaries
     [Serializable]
     public class ScriptableObjectFloatDictionary : SerializableDictionary<ScriptableObject, float> { }
 
+    [Serializable]
+    public class StringScriptableObjectDictionary : SerializableDictionary<string, ScriptableObject> { }
+
+    [Serializable]
+    public class StringSpriteDictionary : SerializableDictionary<string, Sprite> { }
+
     //[Serializable]
     //public class ColorArrayStorage : SerializableDictionary.Storage<Color[]> { }
 
