@@ -10,7 +10,9 @@ public class NonRaycastableTransparencyImage : Image
     {
         base.OnEnable();
         alphaHitTestMinimumThreshold = 0.001f;
+        if (!sprite.texture.isReadable) Debug.LogWarning("Texture is not read/write enabled! The transparency check won't work!");
     }
+
     public override bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
     {
         bool result = base.IsRaycastLocationValid(screenPoint, eventCamera);
