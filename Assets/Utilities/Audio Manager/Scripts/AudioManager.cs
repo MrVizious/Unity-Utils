@@ -19,10 +19,12 @@ namespace Audio
         {
             get
             {
+#if UNITY_EDITOR
                 if (_settings == null)
                 {
                     _settings = AssetDatabase.LoadAssetAtPath<AudioSettings>("Assets/Settings/AudioSettingsAuto.asset");
                 }
+#endif
                 if (_settings == null)
                 {
                     _settings = ScriptableObject.CreateInstance<AudioSettings>();
