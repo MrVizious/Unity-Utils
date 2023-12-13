@@ -12,7 +12,7 @@ namespace DesignPatterns
     /// </summary>
     public abstract class Singleton<T> : SerializedMonoBehaviour where T : SerializedMonoBehaviour
     {
-        private static T _instance = null;
+        protected static T _instance = null;
 
 
         // if you want a child class to be destroyed on load, copy this code into it:
