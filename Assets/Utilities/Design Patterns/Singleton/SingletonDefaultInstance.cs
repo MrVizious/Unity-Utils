@@ -10,10 +10,11 @@ namespace DesignPatterns
     /// </summary>
     public abstract class SingletonDefaultInstance<T> : Singleton<T> where T : SingletonDefaultInstance<T>
     {
-        private bool _dontDestroyOnLoad = true;
+        [SerializeField]
+        private bool _destroyOnLoad = true;
         protected override bool dontDestroyOnLoad
         {
-            get => _dontDestroyOnLoad;
+            get => !_destroyOnLoad;
         }
 
 
