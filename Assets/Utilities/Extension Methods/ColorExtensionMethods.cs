@@ -28,6 +28,11 @@ namespace ExtensionMethods
             value.b = newBlue;
             return value;
         }
+
+        public static Color RandomColor()
+        {
+            return new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+        }
     }
 
 }
