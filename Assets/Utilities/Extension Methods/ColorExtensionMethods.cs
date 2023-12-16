@@ -33,6 +33,16 @@ namespace ExtensionMethods
         {
             return new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
         }
+
+        public static Color FromString(string colorString)
+        {
+            Color returnColor;
+            if (ColorUtility.TryParseHtmlString(colorString, out returnColor))
+            {
+                return returnColor;
+            }
+            return Color.magenta;
+        }
     }
 
 }
