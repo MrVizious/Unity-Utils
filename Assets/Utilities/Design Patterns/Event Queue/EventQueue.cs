@@ -64,9 +64,9 @@ namespace DesignPatterns
                 Debug.Log("There is no current event!");
                 return;
             }
-            currentEvent.Execute();
             currentEvent.onEnded.AddListener(OnCurrentEventEnded);
             currentEvent.onEnded.AddListener(ExecuteNextEvent);
+            currentEvent.Execute().Forget();
         }
 
         private void OnCurrentEventEnded()
