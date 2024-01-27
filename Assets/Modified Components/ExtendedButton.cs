@@ -12,6 +12,8 @@ public class ExtendedButton : Button
 {
     public UnityEvent onPointerEnter = new UnityEvent();
     public UnityEvent onPointerExit = new UnityEvent();
+    public UnityEvent onButtonDown = new UnityEvent();
+    public UnityEvent onButtonUp = new UnityEvent();
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
@@ -23,6 +25,17 @@ public class ExtendedButton : Button
     {
         base.OnPointerExit(eventData);
         onPointerExit.Invoke();
+    }
+    public override void OnPointerDown(PointerEventData eventData)
+    {
+        base.OnPointerDown(eventData);
+        onButtonDown.Invoke();
+    }
+
+    public override void OnPointerUp(PointerEventData eventData)
+    {
+        base.OnPointerUp(eventData);
+        onButtonUp.Invoke();
     }
 
 }
