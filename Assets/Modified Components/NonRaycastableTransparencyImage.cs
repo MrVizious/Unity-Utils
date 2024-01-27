@@ -15,7 +15,7 @@ public class NonRaycastableTransparencyImage : Image
 
     public override bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
     {
-        bool result = base.IsRaycastLocationValid(screenPoint, eventCamera);
+        bool result = base.IsRaycastLocationValid(screenPoint, eventCamera) && color.a >= alphaHitTestMinimumThreshold;
         if (!result)
         {
             return false;
