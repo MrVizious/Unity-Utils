@@ -10,6 +10,7 @@ public class NonRaycastableTransparencyImage : Image
     {
         base.OnEnable();
         alphaHitTestMinimumThreshold = 0.001f;
+        if (sprite == null) return;
         if (!sprite.texture.isReadable) Debug.LogWarning("Texture is not read/write enabled! The transparency check won't work!");
     }
 
