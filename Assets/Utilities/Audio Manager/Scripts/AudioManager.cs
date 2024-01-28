@@ -86,7 +86,6 @@ namespace Audio
 
         public AudioSourceExtended PlaySound(AudioClip clip, float minPitchRange = 1f, float maxPitchRange = 1f)
         {
-            Debug.Log(clip);
             if (stopOnMuted && settings.SoundVolume <= 0f) return null;
             AudioSourceExtended source = soundSources.Get();
             return source.Play(clip, settings.SoundVolume, minPitchRange: minPitchRange, maxPitchRange: maxPitchRange);

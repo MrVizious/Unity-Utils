@@ -77,7 +77,7 @@ namespace Audio
 
         private async UniTask ListenForPlayingEnd()
         {
-            await UniTask.WaitUntil(() => audioSource.isPlaying == false);
+            await UniTask.WaitUntil(() => audioSource?.isPlaying == false);
             onEndedPlaying?.Invoke();
         }
 
@@ -89,13 +89,11 @@ namespace Audio
 
         public override void OnPoolRelease()
         {
-            Debug.Log("Deactivating");
             gameObject.SetActive(false);
         }
 
         public override void OnPoolGet()
         {
-            Debug.Log("Activating");
             gameObject.SetActive(true);
         }
 
@@ -104,7 +102,6 @@ namespace Audio
             fadingIn = true;
             if (secondsToFade <= 0f)
             {
-                Debug.Log("Fading with 0");
                 audioSource.volume = targetVolume;
                 return;
             }
