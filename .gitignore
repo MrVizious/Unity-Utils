@@ -1,5 +1,7 @@
-# Ignore everything in repository root 
+# Ignore everything in repository root
 /*
+# Asset meta data should only be ignored when the corresponding asset is also ignored
+!/[Aa]ssets/**/*.meta
 
 # Files to not ignore
 !/.gitignore
