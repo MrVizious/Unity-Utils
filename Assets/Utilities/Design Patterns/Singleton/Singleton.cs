@@ -1,5 +1,7 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 
 namespace DesignPatterns
 {
@@ -34,34 +36,33 @@ namespace DesignPatterns
         /// or make your public methods static
         /// and have them use Instance
         /// </summary>
-        public static T Instance
+        public static async UniTask<T> GetInstance()
         {
-            get
+            // If there is not an existing singleton instance
+            if (_instance == null)
             {
-                // If there is not an existing singleton instance
+                _instance = (T)FindObjectOfType(typeof(T));
                 if (_instance == null)
                 {
-                    _instance = (T)FindObjectOfType(typeof(T));
-                    if (_instance == null)
-                    {
-                        string goName = typeof(T).ToString();
+                    string goName = typeof(T).ToString();
 
-                        GameObject go = GameObject.Find(goName);
-                        if (go == null)
-                        {
-                            go = new GameObject();
-                            go.name = goName;
-                        }
-                        _instance = go.AddComponent<T>();
+                    GameObject go = GameObject.Find(goName);
+                    if (go == null)
+                    {
+                        go = new GameObject();
+                        go.name = goName;
                     }
+                    _instance = go.AddComponent<T>();
+                    await UniTask.WaitUntil(() => _instance != null);
                 }
-                return _instance;
             }
+            return _instance;
         }
 
-        protected virtual void Awake()
+        protected async virtual void Awake()
         {
-            if (Instance != this)
+            T currentInstance = await GetInstance();
+            if (currentInstance != this)
             {
                 Destroy(_instance.gameObject);
                 _instance = GetComponent<T>();

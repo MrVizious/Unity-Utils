@@ -22,15 +22,16 @@ namespace Audio
         public float secondsToFadeIn = 0f, secondsToFadeOut = 0f;
 
         [Button]
-        public void Invoke()
+        public async void Invoke()
         {
+            AudioManager audioManager = await AudioManager.GetInstance();
             switch (audioType)
             {
                 case AudioType.Sound:
-                    AudioManager.Instance.PlaySound(clip, minPitchRange, maxPitchRange);
+                    audioManager.PlaySound(clip, minPitchRange, maxPitchRange);
                     break;
                 case AudioType.Music:
-                    AudioManager.Instance.PlayMusic(clip, secondsToFadeIn, secondsToFadeOut);
+                    audioManager.PlayMusic(clip, secondsToFadeIn, secondsToFadeOut);
                     break;
             }
         }

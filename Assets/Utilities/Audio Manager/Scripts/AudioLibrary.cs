@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RuntimeSet;
+using Cysharp.Threading.Tasks;
+
 
 namespace Audio
 {
@@ -10,13 +12,15 @@ namespace Audio
         public int latestIndexUsed = -1;
         protected AudioClip selectedClip;
 
-        public virtual AudioSourceExtended PlayMusic(AudioClip clip)
+        public virtual async UniTask<AudioSourceExtended> PlayMusic(AudioClip clip)
         {
-            return AudioManager.Instance.PlayMusic(clip);
+            AudioManager audioManager = await AudioManager.GetInstance();
+            return audioManager.PlayMusic(clip);
         }
-        public virtual AudioSourceExtended PlaySound(AudioClip clip, float minPitchRange = 1f, float maxPitchRange = 1f)
+        public virtual async UniTask<AudioSourceExtended> PlaySound(AudioClip clip, float minPitchRange = 1f, float maxPitchRange = 1f)
         {
-            return AudioManager.Instance.PlaySound(clip, minPitchRange, maxPitchRange);
+            AudioManager audioManager = await AudioManager.GetInstance();
+            return audioManager.PlaySound(clip, minPitchRange, maxPitchRange);
         }
         protected virtual void SetSelected(int index)
         {
