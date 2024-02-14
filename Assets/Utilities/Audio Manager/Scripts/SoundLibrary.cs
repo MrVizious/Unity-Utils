@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Cysharp.Threading.Tasks;
 
 namespace Audio
 {
@@ -11,22 +12,24 @@ namespace Audio
     {
         [SerializeField] private float minPitchRange = 1f, maxPitchRange = 1f;
 
-        public AudioSourceExtended PlaySound(AudioClip clip)
+        public async UniTask<AudioSourceExtended> PlaySound(AudioClip clip)
         {
-            return AudioManager.Instance.PlaySound(clip, minPitchRange, maxPitchRange);
+            AudioManager audioManager = await AudioManager.GetInstance();
+            return audioManager.PlaySound(clip, minPitchRange, maxPitchRange);
         }
 
         [Button]
-        public AudioSourceExtended PlayRandomSound()
+        public async UniTask<AudioSourceExtended> PlayRandomSound()
         {
+            AudioManager audioManager = await AudioManager.GetInstance();
             AudioClip clip = GetRandomExcludingIndex(out latestIndexUsed, latestIndexUsed);
-            return AudioManager.Instance.PlaySound(clip, minPitchRange, maxPitchRange);
+            return audioManager.PlaySound(clip, minPitchRange, maxPitchRange);
         }
 
         [Button]
-        public AudioSourceExtended PlaySelectedSound()
+        public async UniTask<AudioSourceExtended> PlaySelectedSound()
         {
-            return PlaySound(selectedClip);
+            return await PlaySound(selectedClip);
         }
 
 

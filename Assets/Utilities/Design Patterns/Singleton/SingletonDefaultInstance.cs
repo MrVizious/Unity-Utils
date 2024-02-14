@@ -1,3 +1,5 @@
+using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace DesignPatterns
@@ -5,7 +7,7 @@ namespace DesignPatterns
     /// <summary>
     /// MONOBEHAVIOR PSEUDO SINGLETON ABSTRACT CLASS WITH DEFAULT INSTANCE IN RESOURCES FOLDER
     /// usage	: Create a prefab at the route named the same as the class name that
-    ///           has the class as a component
+    ///           has the class as a component. Default route is inside Resources folder
     /// example	: '''public class MyClass : SingletonDefaultInstance<MyClass> { ... }'''
     /// </summary>
     public abstract class SingletonDefaultInstance<T> : Singleton<T> where T : SingletonDefaultInstance<T>
@@ -28,24 +30,24 @@ namespace DesignPatterns
         {
             get => "Singleton Instances/" + typeof(T).Name;
         }
-        public static new T Instance
+
+        public async static new UniTask<T> GetInstance()
         {
-            get
+            // If there is not an existing singleton instance
+            if (_instance == null)
             {
-                // If there is not an existing singleton instance
+                _instance = (T)FindObjectOfType(typeof(T));
                 if (_instance == null)
                 {
-                    _instance = (T)FindObjectOfType(typeof(T));
-                    if (_instance == null)
-                    {
-                        Debug.Log(resourcesPath);
-                        _instance = Instantiate(
-                            Resources.Load(resourcesPath)
-                        ) as T;
-                    }
+                    Debug.Log(resourcesPath);
+                    GameObject newInstance = Instantiate(Resources.Load(resourcesPath)) as GameObject;
+                    _instance = newInstance.GetComponent<T>();
                 }
-                return _instance;
             }
+
+            await UniTask.WaitUntil(() => _instance != null);
+
+            return _instance;
         }
 
     }

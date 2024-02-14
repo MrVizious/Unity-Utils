@@ -16,5 +16,10 @@ namespace ExtensionMethods
             return value.Length <= maxLength ? value : value.Substring(0, maxLength);
         }
 
+        public static bool EqualsCaseInsensitive(this string originalString, string comparedString)
+        {
+            return originalString.ToLower().Equals(comparedString.ToLower());
+        }
+
     }
 }

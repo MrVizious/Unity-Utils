@@ -11,6 +11,7 @@ namespace DesignPatterns
     /// Source: https://github.com/Matthew-J-Spencer/Object-Pooler
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [System.Serializable]
     public class Pool<T> where T : Poolable
     {
         private T _prefab;
@@ -46,6 +47,7 @@ namespace DesignPatterns
                 },
                 obj =>
                 {
+                    Debug.Log("Getting new item from pool");
                     obj.OnPoolGet();
                 },
                 obj =>
