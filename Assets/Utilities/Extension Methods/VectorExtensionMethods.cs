@@ -12,6 +12,19 @@ namespace ExtensionMethods
         //  SECTION: Vector2
         //
         #region Vector2
+
+        /// <summary>
+        /// Replaces the current x or/and y values by the provided ones.
+        /// </summary>
+        /// <param name="v">Vector2 to change values from</param>
+        /// <param name="x">float to place in the x value of v</param>
+        /// <param name="y">float to place in the y value of v</param>
+        /// <returns></returns>
+        public static Vector2 With(this Vector2 v, float? x = null, float? y = null)
+        {
+            return new Vector2(x ?? v.x, y ?? v.y);
+        }
+
         /// <summary>
         /// Replaces the x component in the vector by the provided float x
         /// </summary>
@@ -115,6 +128,19 @@ namespace ExtensionMethods
         public static Vector2 xy(this Vector3 v)
         {
             return new Vector2(v.x, v.y);
+        }
+
+        /// <summary>
+        /// Replaces the current x or/and y values by the provided ones.
+        /// </summary>
+        /// <param name="v">Vector2 to change values from</param>
+        /// <param name="x">float to place in the x value of v</param>
+        /// <param name="y">float to place in the y value of v</param>
+        /// <param name="z">float to place in the z value of v</param>
+        /// <returns></returns>
+        public static Vector3 With(this Vector3 v, float? x = null, float? y = null, float? z = null)
+        {
+            return new Vector3(x ?? v.x, y ?? v.y, z ?? v.z);
         }
 
         /// <summary>
