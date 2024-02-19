@@ -5,6 +5,14 @@ namespace ExtensionMethods
 
     public static class ColorExtensionMethods
     {
+        public static Color With(this Color value, float? r = null, float? g = null, float? b = null, float? a = null)
+        {
+            value.r = r ?? value.r;
+            value.g = g ?? value.g;
+            value.b = b ?? value.b;
+            value.a = a ?? value.a;
+            return value;
+        }
 
         public static Color WithAlpha(this Color value, float newAlpha)
         {
