@@ -10,7 +10,7 @@ using UnityEditor;
 namespace Audio
 {
 
-    public class AudioManager : Singleton<AudioManager>
+    public class AudioManager : DesignPatterns.Singleton<AudioManager>
     {
         public bool stopOnMuted = true;
         private AudioSettings _settings;
