@@ -38,6 +38,7 @@ public class SerializableType : ISerializationCallbackReceiver
     public static implicit operator SerializableType(Type type) => new() { Type = type };
 }
 
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(SerializableType))]
 public class SerializableTypeDrawer : PropertyDrawer
 {
@@ -106,7 +107,7 @@ public static class TypeExtensions
     /// </summary>
     /// <param name="type">The type which needs to be checked.</param>
     /// <param name="baseType">The base type/interface which is expected to be inherited or implemented by the 'type'</param>
-    /// <returns>Return true if 'type' inherits or implements 'baseType'. False otherwise</returns>        
+    /// <returns>Return true if 'type' inherits or implements 'baseType'. False otherwise</returns>
     public static bool InheritsOrImplements(this Type type, Type baseType)
     {
         type = ResolveGenericType(type);
@@ -136,3 +137,4 @@ public static class TypeExtensions
         return type.GetInterfaces().Any(i => ResolveGenericType(i) == intefaceType);
     }
 }
+#endif
