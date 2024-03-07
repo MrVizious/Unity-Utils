@@ -132,9 +132,9 @@ public static class TypeExtensions
         return genericType != type ? genericType : type;
     }
 
-    static bool HasAnyInterfaces(Type type, Type intefaceType)
+    static bool HasAnyInterfaces(Type type, Type interfaceType)
     {
-        return type.GetInterfaces().Any(i => ResolveGenericType(i) == intefaceType);
+        return type.GetInterfaces().Any(i => ResolveGenericType(i) == interfaceType);
     }
 }
 #endif
