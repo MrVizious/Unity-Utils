@@ -4,17 +4,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UltEvents;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 public class ExtendedButton : Button
 {
-    public UnityEvent onPointerEnter = new UnityEvent();
-    public UnityEvent onPointerExit = new UnityEvent();
-    public UnityEvent onButtonDown = new UnityEvent();
-    public UnityEvent onButtonUp = new UnityEvent();
+    public new UltEvent onClick = new UltEvent();
+    public UltEvent onPointerEnter = new UltEvent();
+    public UltEvent onPointerExit = new UltEvent();
+    public UltEvent onButtonDown = new UltEvent();
+    public UltEvent onButtonUp = new UltEvent();
 
+    public override void OnPointerClick(PointerEventData eventData)
+    {
+        base.OnPointerClick(eventData);
+        onClick.Invoke();
+    }
     public override void OnPointerEnter(PointerEventData eventData)
     {
         base.OnPointerEnter(eventData);
