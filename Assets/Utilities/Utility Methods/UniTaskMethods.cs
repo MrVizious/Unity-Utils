@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 
 namespace UtilityMethods
@@ -10,6 +12,23 @@ namespace UtilityMethods
             int millisToWait = (int)(secondsToWait * 1000);
             await UniTask.Delay(millisToWait);
             action.Invoke();
+        }
+
+        public static async UniTask ExecuteInBatches(IEnumerable<UniTask> taskList, int batchSize)
+        {
+
+            List<UniTask> tempTaskList = new List<UniTask>();
+            foreach (UniTask task in taskList)
+            {
+                tempTaskList.Add(task);
+                if (tempTaskList.Count == batchSize)
+                {
+                    await UniTask.WhenAll(tempTaskList);
+                    tempTaskList.Clear();
+                }
+            }
+            await UniTask.WhenAll(tempTaskList);
+            tempTaskList.Clear();
         }
     }
 }
