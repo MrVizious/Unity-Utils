@@ -16,7 +16,11 @@ namespace UtilityMethods
 
         public static async UniTask ExecuteInBatches(IEnumerable<UniTask> taskList, int batchSize)
         {
-
+            if (batchSize <= 0)
+            {
+                await UniTask.WhenAll(taskList);
+                return;
+            }
             List<UniTask> tempTaskList = new List<UniTask>();
             foreach (UniTask task in taskList)
             {
