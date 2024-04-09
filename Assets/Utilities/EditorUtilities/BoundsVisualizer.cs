@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using ExtensionMethods;
+using System;
 
 public class BoundsVisualizer : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class BoundsVisualizer : MonoBehaviour
     public enum BoundsSource
     {
         MeshFilter,
+        RendererLocal,
+        RendererWorld,
         Collider
     }
 
@@ -32,6 +36,16 @@ public class BoundsVisualizer : MonoBehaviour
         }
     }
 
+    private Renderer _rend;
+    private Renderer rend
+    {
+        get
+        {
+            if (_rend == null) TryGetComponent<Renderer>(out _rend);
+            return _rend;
+        }
+    }
+
     private void OnDrawGizmos()
     {
         // Initialize bounds to an empty bounds structure
@@ -41,10 +55,23 @@ public class BoundsVisualizer : MonoBehaviour
         switch (boundsSource)
         {
             case BoundsSource.MeshFilter:
-                if (meshFilter != null && meshFilter.sharedMesh != null)
+                if (meshFilter != null && meshFilter.mesh != null)
                 {
-                    bounds = meshFilter.sharedMesh.bounds;
-                    bounds = new Bounds(transform.TransformPoint(bounds.center), Vector3.Scale(bounds.size, transform.lossyScale)); // Adjust bounds to GameObject's transform
+                    bounds = meshFilter.mesh.bounds;
+                    hasBounds = true;
+                }
+                break;
+            case BoundsSource.RendererLocal:
+                if (rend != null)
+                {
+                    bounds = rend.localBounds; // Renderer bounds are already in world space
+                    hasBounds = true;
+                }
+                break;
+            case BoundsSource.RendererWorld:
+                if (rend != null)
+                {
+                    bounds = rend.bounds; // Renderer bounds are already in world space
                     hasBounds = true;
                 }
                 break;
@@ -59,37 +86,21 @@ public class BoundsVisualizer : MonoBehaviour
 
         if (hasBounds)
         {
-            Gizmos.color = gizmosColor; // Use the customizable color for Gizmos
-
-            Vector3 center = bounds.center;
-            Vector3 size = bounds.size;
-
-            // Calculate the half extents of the bounds
-            Vector3 extents = size * 0.5f;
-            Vector3 frontTopLeft = center + new Vector3(-extents.x, extents.y, -extents.z);
-            Vector3 frontTopRight = center + new Vector3(extents.x, extents.y, -extents.z);
-            Vector3 frontBottomLeft = center + new Vector3(-extents.x, -extents.y, -extents.z);
-            Vector3 frontBottomRight = center + new Vector3(extents.x, -extents.y, -extents.z);
-            Vector3 backTopLeft = center + new Vector3(-extents.x, extents.y, extents.z);
-            Vector3 backTopRight = center + new Vector3(extents.x, extents.y, extents.z);
-            Vector3 backBottomLeft = center + new Vector3(-extents.x, -extents.y, extents.z);
-            Vector3 backBottomRight = center + new Vector3(extents.x, -extents.y, extents.z);
-
-            // Draw lines between the calculated corners to form the box
-            Gizmos.DrawLine(frontTopLeft, frontTopRight);
-            Gizmos.DrawLine(frontTopRight, frontBottomRight);
-            Gizmos.DrawLine(frontBottomRight, frontBottomLeft);
-            Gizmos.DrawLine(frontBottomLeft, frontTopLeft);
-
-            Gizmos.DrawLine(backTopLeft, backTopRight);
-            Gizmos.DrawLine(backTopRight, backBottomRight);
-            Gizmos.DrawLine(backBottomRight, backBottomLeft);
-            Gizmos.DrawLine(backBottomLeft, backTopLeft);
-
-            Gizmos.DrawLine(frontTopLeft, backTopLeft);
-            Gizmos.DrawLine(frontTopRight, backTopRight);
-            Gizmos.DrawLine(frontBottomRight, backBottomRight);
-            Gizmos.DrawLine(frontBottomLeft, backBottomLeft);
+            BoundsExtensionMethods.BoundsSpace boundsSpace;
+            switch (boundsSource)
+            {
+                case BoundsSource.RendererLocal:
+                case BoundsSource.MeshFilter:
+                    boundsSpace = BoundsExtensionMethods.BoundsSpace.Local;
+                    break;
+                case BoundsSource.RendererWorld:
+                case BoundsSource.Collider:
+                    boundsSpace = BoundsExtensionMethods.BoundsSpace.World;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("BoundsSource is not valid. " + nameof(boundsSource));
+            }
+            bounds.Visualize(gizmosColor, boundsSpace, transform);
         }
     }
 }
