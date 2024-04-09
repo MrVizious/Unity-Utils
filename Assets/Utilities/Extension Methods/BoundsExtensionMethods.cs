@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.Utilities;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 namespace ExtensionMethods
 {
@@ -21,13 +19,15 @@ namespace ExtensionMethods
         public enum VertexPosition
         {
             BottomLeftFront,
+            Min,
             BottomRightFront,
             BottomLeftBack,
             BottomRightBack,
             TopLeftFront,
             TopRightFront,
             TopLeftBack,
-            TopRightBack
+            TopRightBack,
+            Max
         }
 
 
@@ -63,6 +63,14 @@ namespace ExtensionMethods
             return returnArray;
         }
 
+        public static Vector3 GetLocalSize(this Bounds bounds, VertexPosition vertexPosition, BoundsSpace boundsSpace, Transform transform = null)
+        {
+            return (bounds.GetLocalVertex(VertexPosition.Max, boundsSpace, transform) - bounds.GetLocalVertex(VertexPosition.Min, boundsSpace, transform));
+        }
+        public static Vector3 GetWorldSize(this Bounds bounds, VertexPosition vertexPosition, BoundsSpace boundsSpace, Transform transform = null)
+        {
+            return bounds.GetLocalVertex(VertexPosition.Max, boundsSpace, transform) - bounds.GetLocalVertex(VertexPosition.Min, boundsSpace, transform);
+        }
         public static Vector3 GetLocalVertex(this Bounds bounds, VertexPosition vertexPosition, BoundsSpace boundsSpace, Transform transform = null)
         {
             if (boundsSpace == BoundsSpace.World && transform == null)
@@ -75,6 +83,7 @@ namespace ExtensionMethods
             switch (vertexPosition)
             {
                 case VertexPosition.BottomLeftFront:
+                case VertexPosition.Min:
                     vertex = min;
                     break;
                 case VertexPosition.BottomRightFront:
@@ -96,6 +105,7 @@ namespace ExtensionMethods
                     vertex = new Vector3(min.x, max.y, max.z);
                     break;
                 case VertexPosition.TopRightBack:
+                case VertexPosition.Max:
                     vertex = max;
                     break;
                 default:
@@ -115,48 +125,14 @@ namespace ExtensionMethods
             {
                 throw new ArgumentException("Can't get world vertex from a local space bounds if no Transform is supplied");
             }
-            Vector3 vertex;
-            Vector3 min = bounds.min;
-            Vector3 max = bounds.max;
-            switch (vertexPosition)
-            {
-                case VertexPosition.BottomLeftFront:
-                    vertex = min;
-                    break;
-                case VertexPosition.BottomRightFront:
-                    vertex = new Vector3(max.x, min.y, min.z);
-                    break;
-                case VertexPosition.BottomLeftBack:
-                    vertex = new Vector3(min.x, min.y, max.z);
-                    break;
-                case VertexPosition.BottomRightBack:
-                    vertex = new Vector3(max.x, min.y, max.z);
-                    break;
-                case VertexPosition.TopLeftFront:
-                    vertex = new Vector3(min.x, max.y, min.z);
-                    break;
-                case VertexPosition.TopRightFront:
-                    vertex = new Vector3(max.x, max.y, min.z);
-                    break;
-                case VertexPosition.TopLeftBack:
-                    vertex = new Vector3(min.x, max.y, max.z);
-                    break;
-                case VertexPosition.TopRightBack:
-                    vertex = max;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("Invalid vertex position " + nameof(vertexPosition));
-            }
-            if (boundsSpace == BoundsSpace.Local)
-            {
-                vertex = transform.TransformPoint(vertex);
-                //vertex = transform.rotation * vertex;
-            }
+
+            Vector3 vertex = bounds.GetLocalVertex(vertexPosition, boundsSpace, transform);
+            vertex = transform.TransformPoint(vertex);
 
             return vertex;
         }
 
-        public static void Visualize(this Bounds bounds, Color color, BoundsSpace boundsSpace, Transform transform = null)
+        public static void VisualizeInWorldSpace(this Bounds bounds, Color color, BoundsSpace boundsSpace, Transform transform = null)
         {
             Color originalColor = Gizmos.color;
             if (boundsSpace == BoundsSpace.Local && transform == null)
@@ -196,8 +172,8 @@ namespace ExtensionMethods
 
             Gizmos.color = Color.cyan;
             Gizmos.DrawSphere(vertices[0], 0.05f);
+            Gizmos.color = Color.red;
             Gizmos.DrawSphere(vertices[7], 0.05f);
-
 
             Gizmos.color = originalColor;
         }

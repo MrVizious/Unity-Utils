@@ -113,6 +113,11 @@ namespace ExtensionMethods
         {
             return new Vector2(v3.x, v3.y);
         }
+
+        public static Vector2 Abs(Vector2 vector2)
+        {
+            return new Vector2(Mathf.Abs(vector2.x), Mathf.Abs(vector2.y));
+        }
         #endregion
 
 
@@ -214,6 +219,10 @@ namespace ExtensionMethods
         public static Vector3 toVector3(Vector2 v2)
         {
             return new Vector3(v2.x, v2.y, 0f);
+        }
+        public static Vector3 Abs(Vector3 vector3)
+        {
+            return new Vector3(Mathf.Abs(vector3.x), Mathf.Abs(vector3.y), Mathf.Abs(vector3.z));
         }
         #endregion
     }

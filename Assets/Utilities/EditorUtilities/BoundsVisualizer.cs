@@ -5,6 +5,7 @@ using System;
 
 public class BoundsVisualizer : MonoBehaviour
 {
+    public bool debug = true;
     public BoundsSource boundsSource;
     public Color gizmosColor = Color.black; // Allows customization of the Gizmos color
 
@@ -48,6 +49,7 @@ public class BoundsVisualizer : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (!debug) return;
         // Initialize bounds to an empty bounds structure
         Bounds bounds = new Bounds(Vector3.zero, Vector3.zero);
         bool hasBounds = false;
@@ -57,7 +59,7 @@ public class BoundsVisualizer : MonoBehaviour
             case BoundsSource.MeshFilter:
                 if (meshFilter != null && meshFilter.mesh != null)
                 {
-                    bounds = meshFilter.mesh.bounds;
+                    bounds = meshFilter.sharedMesh.bounds;
                     hasBounds = true;
                 }
                 break;
@@ -100,7 +102,7 @@ public class BoundsVisualizer : MonoBehaviour
                 default:
                     throw new ArgumentOutOfRangeException("BoundsSource is not valid. " + nameof(boundsSource));
             }
-            bounds.Visualize(gizmosColor, boundsSpace, transform);
+            bounds.VisualizeInWorldSpace(gizmosColor, boundsSpace, transform);
         }
     }
 }
