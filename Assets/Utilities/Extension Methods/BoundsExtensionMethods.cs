@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Sirenix.Utilities;
 using UnityEngine;
 
 namespace ExtensionMethods
@@ -63,14 +62,15 @@ namespace ExtensionMethods
             return returnArray;
         }
 
-        public static Vector3 GetLocalSize(this Bounds bounds, VertexPosition vertexPosition, BoundsSpace boundsSpace, Transform transform = null)
+        public static Vector3 GetLocalSize(this Bounds bounds, BoundsSpace boundsSpace, Transform transform = null)
         {
-            return (bounds.GetLocalVertex(VertexPosition.Max, boundsSpace, transform) - bounds.GetLocalVertex(VertexPosition.Min, boundsSpace, transform));
+            return VectorExtensionMethods.Abs(bounds.GetLocalVertex(VertexPosition.Max, boundsSpace, transform) - bounds.GetLocalVertex(VertexPosition.Min, boundsSpace, transform));
         }
-        public static Vector3 GetWorldSize(this Bounds bounds, VertexPosition vertexPosition, BoundsSpace boundsSpace, Transform transform = null)
+        public static Vector3 GetWorldSize(this Bounds bounds, BoundsSpace boundsSpace, Transform transform = null)
         {
-            return bounds.GetLocalVertex(VertexPosition.Max, boundsSpace, transform) - bounds.GetLocalVertex(VertexPosition.Min, boundsSpace, transform);
+            return VectorExtensionMethods.Abs(bounds.GetWorldVertex(VertexPosition.Max, boundsSpace, transform) - bounds.GetWorldVertex(VertexPosition.Min, boundsSpace, transform));
         }
+
         public static Vector3 GetLocalVertex(this Bounds bounds, VertexPosition vertexPosition, BoundsSpace boundsSpace, Transform transform = null)
         {
             if (boundsSpace == BoundsSpace.World && transform == null)
