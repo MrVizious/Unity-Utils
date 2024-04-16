@@ -7,11 +7,11 @@ namespace DesignPatterns
     /// <summary>
     /// example	: '''public class MyClass : State<MyClass> { ... }'''
     /// </summary>
-    public interface State<T> where T : State<T>
+    public interface IState<T> where T : IState<T>
     {
-        StateMachine<T> stateMachine { get; }
+        IStateMachine<T> stateMachine { get; }
 
-        void Enter(StateMachine<T> newStateMachine);
+        void Enter(IStateMachine<T> newStateMachine);
         void Execute();
         void Exit();
     }

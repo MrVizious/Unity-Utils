@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class ExampleMonoBehaviourState : MonoBehaviourState<ExampleMonoBehaviourState>
 {
-    public override StateMachine<ExampleMonoBehaviourState> stateMachine => throw new System.NotImplementedException();
+    public override IStateMachine<ExampleMonoBehaviourState> stateMachine => throw new System.NotImplementedException();
 
-    public override void Enter(StateMachine<ExampleMonoBehaviourState> newStateMachine)
+    public override void Enter(IStateMachine<ExampleMonoBehaviourState> newStateMachine)
     {
         throw new System.NotImplementedException();
     }

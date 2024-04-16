@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using DesignPatterns;
 
-public class ExampleState : State<ExampleState>
+public class ExampleState : IState<ExampleState>
 {
-    public StateMachine<ExampleState> stateMachine => throw new System.NotImplementedException();
+    public IStateMachine<ExampleState> stateMachine => throw new System.NotImplementedException();
 
-    public void Enter(StateMachine<ExampleState> newStateMachine)
+    public void Enter(IStateMachine<ExampleState> newStateMachine)
     {
         throw new System.NotImplementedException();
     }

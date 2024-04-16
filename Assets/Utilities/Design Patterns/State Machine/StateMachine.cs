@@ -10,7 +10,7 @@ namespace DesignPatterns
     /// Usage: public class ExampleStateMachine : StateMachine<ExampleState> { ... }
     /// </summary>
     /// <typeparam name="T">State type</typeparam>
-    public interface StateMachine<T> where T : State<T>
+    public interface IStateMachine<T> where T : IState<T>
     {
         [ShowInInspector]
         public Stack<T> stateStack { get; set; }

@@ -4,7 +4,7 @@ using UnityEngine;
 using DesignPatterns;
 using System;
 
-public class ExampleStateMachine : StateMachine<ExampleState>
+public class ExampleStateMachine : IStateMachine<ExampleState>
 {
     public Stack<ExampleState> stateStack { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 

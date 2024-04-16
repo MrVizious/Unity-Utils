@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using DesignPatterns;
 using UnityEngine;
 
-public abstract class MonoBehaviourStateMachine<T> : MonoBehaviour, StateMachine<T> where T : MonoBehaviourState<T>
+public abstract class MonoBehaviourStateMachine<T> : MonoBehaviour, IStateMachine<T> where T : MonoBehaviourState<T>
 {
-    public abstract Stack<T> stateStack { get; set; }
-    public abstract T currentState { get; }
+    public Stack<T> stateStack { get; set; }
+    public virtual T currentState { get; protected set; }
 
     public abstract void ChangeToPreviousState();
     public abstract void ChangeToState(Type t);
