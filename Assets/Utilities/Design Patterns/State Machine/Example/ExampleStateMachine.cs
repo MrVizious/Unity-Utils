@@ -6,24 +6,27 @@ using System;
 
 public class ExampleStateMachine : StateMachine<ExampleState>
 {
-    public override void ChangeToPreviousState()
-    {
-        throw new System.NotImplementedException();
-    }
+    public Stack<ExampleState> stateStack { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-    public override void ChangeToState(Type t)
+    public ExampleState currentState => throw new NotImplementedException();
+
+    public void ChangeToPreviousState()
     {
         throw new NotImplementedException();
     }
 
-    public override void ChangeToState(ExampleState newState)
+    public void ChangeToState(Type t)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
-    public override void SubstituteStateWith(ExampleState newState)
+    public void ChangeToState(ExampleState newState)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
+    public void SubstituteStateWith(ExampleState newState)
+    {
+        throw new NotImplementedException();
+    }
 }
