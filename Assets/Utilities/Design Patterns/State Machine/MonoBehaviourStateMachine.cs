@@ -4,20 +4,34 @@ using System.Collections.Generic;
 using DesignPatterns;
 using ExtensionMethods;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using TypeReferences;
 using UnityEngine;
 
 public abstract class MonoBehaviourStateMachine<T> : MonoBehaviour, IStateMachine<T> where T : MonoBehaviourState<T>
 {
-    [SerializeField]
     protected Stack<T> _stateStack = new Stack<T>();
-    public Stack<T> stateStack
+    [ShowInInspector]
+    public virtual Stack<T> stateStack
     {
         get { return _stateStack; }
         protected set { _stateStack = value; }
     }
-    public virtual T currentState { get; protected set; }
-    public T previousState => stateStack.Peek();
+    [ShowInInspector]
+    public virtual T currentState
+    {
+        get;
+        protected set;
+    }
+    [ShowInInspector]
+    public virtual T previousState
+    {
+        get
+        {
+            if (stateStack == null || stateStack.Count <= 0) return null;
+            return stateStack.Peek();
+        }
+    }
 
     protected virtual void Update()
     {
