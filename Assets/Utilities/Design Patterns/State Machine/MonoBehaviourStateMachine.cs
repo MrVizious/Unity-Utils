@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using DesignPatterns;
 using ExtensionMethods;
+using Sirenix.OdinInspector;
+using TypeReferences;
 using UnityEngine;
 
 public abstract class MonoBehaviourStateMachine<T> : MonoBehaviour, IStateMachine<T> where T : MonoBehaviourState<T>
@@ -26,10 +28,11 @@ public abstract class MonoBehaviourStateMachine<T> : MonoBehaviour, IStateMachin
         currentState?.FixedUpdateExecution();
     }
 
+    [Button]
     public virtual void ChangeToState(Type t)
     {
-        if (!t.IsAssignableFrom(typeof(T))) throw new ArgumentException("Type " + t + " is not a subtype of " + typeof(T).Name);
-        T newState = this.GetOrAddComponent<T>();
+        if (!typeof(T).IsAssignableFrom(t)) throw new ArgumentException("Type " + t + " is not a subtype of " + typeof(T).Name);
+        T newState = (T)this.GetOrAddComponent(t);
         ChangeToState(newState);
     }
     protected virtual void ChangeToState(T newState)
