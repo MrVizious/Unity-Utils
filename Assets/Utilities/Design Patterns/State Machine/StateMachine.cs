@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System;
 
 namespace DesignPatterns
 {
@@ -21,6 +22,7 @@ namespace DesignPatterns
         {
             stateStack = new Stack<T>();
         }
+        public abstract void ChangeToState(Type t);
         public virtual void ChangeToState(T newState)
         {
             // null check
