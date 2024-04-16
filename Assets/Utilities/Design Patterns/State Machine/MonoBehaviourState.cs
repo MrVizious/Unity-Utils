@@ -8,6 +8,7 @@ public abstract class MonoBehaviourState<T> : MonoBehaviour, IState<T> where T :
     public abstract IStateMachine<T> stateMachine { get; }
 
     public abstract void Enter(IStateMachine<T> newStateMachine);
-    public abstract void Execute();
     public abstract void Exit();
+    public abstract void UpdateExecution();
+    public abstract void FixedUpdateExecution();
 }

@@ -13,10 +13,10 @@ namespace DesignPatterns
     public interface IStateMachine<T> where T : IState<T>
     {
         [ShowInInspector]
-        public Stack<T> stateStack { get; set; }
+        public Stack<T> stateStack { get; }
         [ShowInInspector]
         public T currentState { get; }
-        public T previousState { get { return stateStack.Peek(); } }
+        public T previousState { get; }
 
         public void ChangeToState(Type t);
         public void ChangeToState(T newState);

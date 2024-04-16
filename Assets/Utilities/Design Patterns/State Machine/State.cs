@@ -12,7 +12,6 @@ namespace DesignPatterns
         IStateMachine<T> stateMachine { get; }
 
         void Enter(IStateMachine<T> newStateMachine);
-        void Execute();
         void Exit();
     }
 }

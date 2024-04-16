@@ -6,9 +6,11 @@ using System;
 
 public class ExampleStateMachine : IStateMachine<ExampleState>
 {
-    public Stack<ExampleState> stateStack { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public Stack<ExampleState> stateStack => throw new NotImplementedException();
 
     public ExampleState currentState => throw new NotImplementedException();
+
+    public ExampleState previousState => throw new NotImplementedException();
 
     public void ChangeToPreviousState()
     {
