@@ -14,10 +14,7 @@ public class ExtendedPhysicsRaycaster : PhysicsRaycaster
 
         var ray = eventCamera.ScreenPointToRay(eventData.position);
 
-        float dist = maxDistance;
-
-        if (eventCamera.farClipPlane < dist)
-            dist = eventCamera.farClipPlane;
+        float dist = Mathf.Min(maxDistance, eventCamera.farClipPlane);
 
         var hits = Physics.RaycastAll(ray, dist, finalEventMask);
 
