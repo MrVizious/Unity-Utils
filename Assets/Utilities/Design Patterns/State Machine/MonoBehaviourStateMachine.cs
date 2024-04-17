@@ -54,8 +54,9 @@ public abstract class MonoBehaviourStateMachine<T> : MonoBehaviour, IStateMachin
         // null check
         if (newState == null) throw new ArgumentNullException("New State to substitute into is null!");
 
-        T existingInstance = this.GetComponent<T>();
-        if (existingInstance != null && existingInstance.Equals(newState)) Destroy(existingInstance);
+        Type type = newState.GetType();
+        T existingInstance = (T)this.GetComponent(type);
+        if (existingInstance != null && !existingInstance.Equals(newState)) Destroy(existingInstance);
 
         // no current state
         if (currentState == null)
@@ -102,10 +103,5 @@ public abstract class MonoBehaviourStateMachine<T> : MonoBehaviour, IStateMachin
         currentState?.Exit();
         currentState = newState;
         currentState.Enter(this);
-    }
-
-    void IStateMachine<T>.ChangeToState(T newState)
-    {
-        throw new NotImplementedException();
     }
 }
