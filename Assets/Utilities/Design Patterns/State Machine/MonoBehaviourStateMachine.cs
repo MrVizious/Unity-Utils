@@ -49,10 +49,13 @@ public abstract class MonoBehaviourStateMachine<T> : MonoBehaviour, IStateMachin
         T newState = (T)this.GetOrAddComponent(t);
         ChangeToState(newState);
     }
-    protected virtual void ChangeToState(T newState)
+    public virtual void ChangeToState(T newState)
     {
         // null check
         if (newState == null) throw new ArgumentNullException("New State to substitute into is null!");
+
+        T currentInstance = this.GetComponent<T>();
+        if (currentInstance != null) Destroy(currentInstance);
 
         // no current state
         if (currentState == null)
