@@ -49,6 +49,7 @@ public abstract class MonoBehaviourStateMachine<T> : MonoBehaviour, IStateMachin
         T newState = (T)this.GetOrAddComponent(t);
         ChangeToState(newState);
     }
+    [Button]
     public virtual void ChangeToState(T newState)
     {
         // null check
@@ -86,12 +87,14 @@ public abstract class MonoBehaviourStateMachine<T> : MonoBehaviour, IStateMachin
         currentState.Enter(this);
     }
 
+    [Button]
     public virtual void ChangeToPreviousState()
     {
         currentState?.Exit();
         currentState = stateStack.Pop();
         currentState?.Enter(this);
     }
+    [Button]
     public virtual void SubstituteStateWith(T newState)
     {
         if (newState == null) throw new ArgumentNullException("New State to substitute into is null!");
