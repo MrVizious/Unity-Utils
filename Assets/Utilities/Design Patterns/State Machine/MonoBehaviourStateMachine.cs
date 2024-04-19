@@ -90,6 +90,11 @@ public abstract class MonoBehaviourStateMachine<T> : MonoBehaviour, IStateMachin
     [Button]
     public virtual void ChangeToPreviousState()
     {
+        if (stateStack == null || stateStack.Count <= 0)
+        {
+            Debug.LogError("Can't go to previous state because it doesn't exist");
+            return;
+        }
         currentState?.Exit();
         currentState = stateStack.Pop();
         currentState?.Enter(this);
