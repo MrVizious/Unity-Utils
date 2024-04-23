@@ -28,6 +28,7 @@ namespace UtilityMethods
             float tasksCompleted = 0f;
             foreach (UniTask task in taskList)
             {
+                tasksCompleted += batchSize;
                 tempTaskList.Add(task);
                 if (tempTaskList.Count == batchSize)
                 {
@@ -36,8 +37,9 @@ namespace UtilityMethods
                     tempTaskList.Clear();
                 }
             }
+            if (tempTaskList.Count <= 0) return;
             await UniTask.WhenAll(tempTaskList);
-            progress.Report(1f);
+            if (progress != null) progress.Report(1f);
             tempTaskList.Clear();
         }
 
