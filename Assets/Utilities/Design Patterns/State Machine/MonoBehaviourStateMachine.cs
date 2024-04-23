@@ -43,8 +43,15 @@ public abstract class MonoBehaviourStateMachine<T> : MonoBehaviour, IStateMachin
     }
 
     [Button]
+    public virtual void ChangeToState(string type)
+    {
+        Debug.Log("Type string is " + type);
+        ChangeToState(Type.GetType(type));
+    }
+    [Button]
     public virtual void ChangeToState(Type t)
     {
+        Debug.Log("Type is " + t.ToString());
         if (!typeof(T).IsAssignableFrom(t)) throw new ArgumentException("Type " + t + " is not a subtype of " + typeof(T).Name);
         T newState = (T)this.GetOrAddComponent(t);
         ChangeToState(newState);

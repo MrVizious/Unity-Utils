@@ -15,26 +15,32 @@ namespace UtilityMethods
             action.Invoke();
         }
 
-        public static async UniTask ExecuteInBatches(IEnumerable<UniTask> taskList, int batchSize)
+        public static async UniTask ExecuteInBatches(IEnumerable<UniTask> taskList, int batchSize, IProgress<float> progress = null)
         {
+            if (taskList == null || taskList.Count() == 0) return;
             if (batchSize <= 0)
             {
                 await UniTask.WhenAll(taskList);
+                if (progress != null) progress.Report(1f);
                 return;
             }
             List<UniTask> tempTaskList = new List<UniTask>();
+            float tasksCompleted = 0f;
             foreach (UniTask task in taskList)
             {
                 tempTaskList.Add(task);
                 if (tempTaskList.Count == batchSize)
                 {
                     await UniTask.WhenAll(tempTaskList);
+                    if (progress != null) progress.Report(tasksCompleted / taskList.Count());
                     tempTaskList.Clear();
                 }
             }
             await UniTask.WhenAll(tempTaskList);
+            progress.Report(1f);
             tempTaskList.Clear();
         }
+
 
         public static async UniTask<T> ExecuteAndRaiseCancelIfValue<T>(UniTask<T> task, CancellationTokenSource cancellationToken, T valueToCancelOn)
         {
@@ -47,6 +53,14 @@ namespace UtilityMethods
             return result;
         }
 
+        /// <summary>
+        /// Executes a series of tasks, and if one of them returns the given value valueToCancelOn,
+        /// cancels any remaining tasks
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tasks"></param>
+        /// <param name="valueToCancelOn"></param>
+        /// <returns></returns>
         public static async UniTask WhenAllUnlessValue<T>(IEnumerable<UniTask<T>> tasks, T valueToCancelOn)
         {
             var cts = new CancellationTokenSource();
@@ -67,6 +81,13 @@ namespace UtilityMethods
             }
         }
 
+        /// <summary>
+        /// Returns a UniTask of the second type. Example: UniTask<Cat> -> UniTask<Animal>
+        /// </summary>
+        /// <typeparam name="TOriginal"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="task"></param>
+        /// <returns></returns>
         public static UniTask<TResult> WrapTaskWithCast<TOriginal, TResult>(UniTask<TOriginal> task) where TOriginal : TResult
         {
             return task.ContinueWith(t => (TResult)t);
