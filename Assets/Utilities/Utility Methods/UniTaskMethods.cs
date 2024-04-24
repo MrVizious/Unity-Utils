@@ -16,32 +16,65 @@ namespace UtilityMethods
             action.Invoke();
         }
 
-        public static async UniTask ExecuteInBatches(IEnumerable<UniTask> taskList, int batchSize, IProgress<float> progress = null)
+        public static async UniTask ExecuteInBatches(IEnumerable<UniTask> taskList, int batchSize, VariableProgress progress = null)
         {
             if (taskList == null || taskList.Count() == 0) return;
             if (batchSize <= 0)
             {
-                await UniTask.WhenAll(taskList);
-                progress?.Report(1f);
+                if (progress == null)
+                {
+                    await UniTask.WhenAll(taskList);
+                }
+                else
+                {
+                    await WhenAllWithReporting(taskList, progress);
+                }
                 return;
             }
             List<UniTask> tempTaskList = new List<UniTask>();
-            float tasksCompleted = 0f;
             foreach (UniTask task in taskList)
             {
                 tempTaskList.Add(task);
                 if (tempTaskList.Count == batchSize)
                 {
-                    await UniTask.WhenAll(tempTaskList);
-                    tasksCompleted += batchSize;
-                    progress?.Report(tasksCompleted / taskList.Count());
+                    if (progress == null)
+                    {
+                        await UniTask.WhenAll(tempTaskList);
+                    }
+                    else
+                    {
+                        await WhenAllWithReporting(tempTaskList, progress);
+                    }
                     tempTaskList.Clear();
                 }
             }
             if (tempTaskList.Count <= 0) return;
-            await UniTask.WhenAll(tempTaskList);
-            progress?.Report(1f);
+            if (progress == null)
+            {
+                await UniTask.WhenAll(tempTaskList);
+            }
+            else
+            {
+                await WhenAllWithReporting(tempTaskList, progress);
+            }
             tempTaskList.Clear();
+        }
+
+        public static async UniTask WhenAllWithReporting(IEnumerable<UniTask> tasks, VariableProgress progress)
+        {
+            HashSet<UniTask> tasksToWaitFor = new HashSet<UniTask>();
+            foreach (UniTask task in tasks)
+            {
+                tasksToWaitFor.Add(ExecuteWithReporting(task, progress));
+            }
+            await UniTask.WhenAll(tasksToWaitFor);
+        }
+
+        public static async UniTask ExecuteWithReporting(UniTask task, VariableProgress progress)
+        {
+            progress.AddToTotal();
+            await task;
+            progress.AddToCompleted();
         }
 
 
