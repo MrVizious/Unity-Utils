@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace UtilityMethods
 {
@@ -21,25 +22,25 @@ namespace UtilityMethods
             if (batchSize <= 0)
             {
                 await UniTask.WhenAll(taskList);
-                if (progress != null) progress.Report(1f);
+                progress?.Report(1f);
                 return;
             }
             List<UniTask> tempTaskList = new List<UniTask>();
             float tasksCompleted = 0f;
             foreach (UniTask task in taskList)
             {
-                tasksCompleted += batchSize;
                 tempTaskList.Add(task);
                 if (tempTaskList.Count == batchSize)
                 {
                     await UniTask.WhenAll(tempTaskList);
-                    if (progress != null) progress.Report(tasksCompleted / taskList.Count());
+                    tasksCompleted += batchSize;
+                    progress?.Report(tasksCompleted / taskList.Count());
                     tempTaskList.Clear();
                 }
             }
             if (tempTaskList.Count <= 0) return;
             await UniTask.WhenAll(tempTaskList);
-            if (progress != null) progress.Report(1f);
+            progress?.Report(1f);
             tempTaskList.Clear();
         }
 
