@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DesignPatterns;
 
-public sealed class ExampleSingleton : Singleton<ExampleSingleton>
+
+
+namespace DesignPatterns
 {
-    public void SayHello()
+    public sealed class ExampleSingleton : Singleton<ExampleSingleton>
     {
-        print("Hello");
+        public void SayHello()
+        {
+            print("Hello");
+        }
     }
 }
