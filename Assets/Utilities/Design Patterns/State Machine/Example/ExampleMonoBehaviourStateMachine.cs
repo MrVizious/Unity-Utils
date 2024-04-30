@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExampleMonoBehaviourStateMachine : MonoBehaviourStateMachine<ExampleMonoBehaviourState>
+namespace DesignPatterns
 {
+
+    public class ExampleMonoBehaviourStateMachine : MonoBehaviourStateMachine<ExampleMonoBehaviourState>
+    {
+    }
+
 }

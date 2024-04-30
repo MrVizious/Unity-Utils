@@ -12,22 +12,22 @@ public class ExampleStateMachine : IStateMachine<ExampleState>
 
     public ExampleState previousState => throw new NotImplementedException();
 
-    public void ChangeToPreviousState()
+    public ExampleState ChangeToPreviousState()
     {
         throw new NotImplementedException();
     }
 
-    public void ChangeToState(Type t)
+    public ExampleState ChangeToState(Type t)
     {
         throw new NotImplementedException();
     }
 
-    public void ChangeToState(ExampleState newState)
+    public ExampleState ChangeToState(ExampleState newState)
     {
         throw new NotImplementedException();
     }
 
-    public void SubstituteStateWith(ExampleState newState)
+    public ExampleState SubstituteStateWith(ExampleState newState)
     {
         throw new NotImplementedException();
     }

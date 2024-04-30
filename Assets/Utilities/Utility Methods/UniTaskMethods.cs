@@ -72,9 +72,9 @@ namespace UtilityMethods
 
         public static async UniTask ExecuteWithReporting(UniTask task, VariableProgress progress)
         {
-            progress.AddToTotal();
+            progress?.AddToTotal();
             await task;
-            progress.AddToCompleted();
+            progress?.AddToCompleted();
         }
 
 

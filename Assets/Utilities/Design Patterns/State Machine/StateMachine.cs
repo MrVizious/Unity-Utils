@@ -18,10 +18,10 @@ namespace DesignPatterns
         public T currentState { get; }
         public T previousState { get; }
 
-        public void ChangeToState(Type t);
-        public void ChangeToState(T newState);
-        public void ChangeToPreviousState();
-        public void SubstituteStateWith(T newState);
+        public T ChangeToState(Type t);
+        public T ChangeToState(T newState);
+        public T ChangeToPreviousState();
+        public T SubstituteStateWith(T newState);
 
     }
 }
