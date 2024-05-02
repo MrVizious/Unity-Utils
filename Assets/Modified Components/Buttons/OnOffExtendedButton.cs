@@ -5,6 +5,8 @@ using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
+using UltEvents;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -20,26 +22,51 @@ public class OnOffExtendedButton : ExtendedButton
     public Sprite offSprite;
     [OnValueChanged("SetOffSprite")]
     public Color offColor = Color.white;
+    public UltEvent onSetOn = new UltEvent();
+    public UltEvent onSetOff = new UltEvent();
+    public bool isOn = false;
     protected override void Start()
     {
-        onClick.DynamicCalls += SetOnSprite;
+        base.Start();
+        SetState(isOn);
+    }
+    public void SetState(bool newValue)
+    {
+        if (newValue)
+        {
+            image.sprite = onSprite;
+            image.color = onColor;
+        }
+        else
+        {
+            image.sprite = offSprite;
+            image.color = offColor;
+        }
+        isOn = newValue;
+        if (isOn)
+        {
+            Debug.Log("Setting on");
+            onSetOn.Invoke();
+        }
+        else onSetOff.Invoke();
+    }
+    [Button]
+    public void SetOn()
+    {
+        SetState(true);
+    }
+    [Button]
+    public void SetOff()
+    {
+        SetState(false);
     }
 
-    public void SetOnSprite()
+    [Button]
+    public void Toggle()
     {
-        image.sprite = onSprite;
-        image.color = onColor;
-    }
-    public void SetOffSprite()
-    {
-        image.sprite = offSprite;
-        image.color = offColor;
+        SetState(!isOn);
     }
 
-    private void OnApplicationQuit()
-    {
-        onClick.DynamicCalls -= SetOnSprite;
-    }
 }
 
 #if UNITY_EDITOR

@@ -19,8 +19,8 @@ public class RadioButtonController : MonoBehaviour
     {
         foreach (OnOffExtendedButton otherButton in buttons)
         {
-            if (otherButton == button) button.SetOnSprite();
-            else otherButton.SetOffSprite();
+            if (otherButton == button) button.SetOn();
+            else otherButton.SetOff();
         }
     }
 }
