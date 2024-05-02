@@ -48,7 +48,6 @@ namespace DesignPatterns
         [Button]
         public virtual T ChangeToState(string type)
         {
-            Debug.Log("Type string is " + type);
             return ChangeToState(Type.GetType(type));
         }
         [Button]
