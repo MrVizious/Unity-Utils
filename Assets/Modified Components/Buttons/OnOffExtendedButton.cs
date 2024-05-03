@@ -45,7 +45,6 @@ public class OnOffExtendedButton : ExtendedButton
         isOn = newValue;
         if (isOn)
         {
-            Debug.Log("Setting on");
             onSetOn.Invoke();
         }
         else onSetOff.Invoke();
