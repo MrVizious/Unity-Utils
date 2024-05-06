@@ -110,6 +110,15 @@ namespace DesignPatterns
             currentState?.Enter(this);
             return currentState;
         }
+
+        [Button]
+        public virtual T SubstituteStateWith(Type t)
+        {
+            Debug.Log("Type is " + t.ToString());
+            if (!typeof(T).IsAssignableFrom(t)) throw new ArgumentException("Type " + t + " is not a subtype of " + typeof(T).Name);
+            T newState = (T)this.GetOrAddComponent(t);
+            return SubstituteStateWith(newState);
+        }
         [Button]
         public virtual T SubstituteStateWith(T newState)
         {

@@ -31,4 +31,9 @@ public class ExampleStateMachine : IStateMachine<ExampleState>
     {
         throw new NotImplementedException();
     }
+
+    public ExampleState SubstituteStateWith(Type t)
+    {
+        throw new NotImplementedException();
+    }
 }

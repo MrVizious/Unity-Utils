@@ -21,6 +21,7 @@ namespace DesignPatterns
         public T ChangeToState(Type t);
         public T ChangeToState(T newState);
         public T ChangeToPreviousState();
+        public T SubstituteStateWith(Type t);
         public T SubstituteStateWith(T newState);
 
     }
