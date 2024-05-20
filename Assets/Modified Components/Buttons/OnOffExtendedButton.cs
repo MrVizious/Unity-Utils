@@ -24,11 +24,12 @@ public class OnOffExtendedButton : ExtendedButton
     public Color offColor = Color.white;
     public UltEvent onSetOn = new UltEvent();
     public UltEvent onSetOff = new UltEvent();
-    public bool isOn = false;
-    protected override void Start()
+    public bool startOn = false;
+    public bool isOn { get; private set; }
+    protected override void OnEnable()
     {
         base.Start();
-        SetState(isOn);
+        SetState(startOn);
     }
     public void SetState(bool newValue)
     {
