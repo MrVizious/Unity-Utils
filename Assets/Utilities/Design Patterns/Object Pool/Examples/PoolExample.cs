@@ -16,9 +16,9 @@ public class PoolExample : MonoBehaviour
         );
     }
 
-    public void Spawn()
+    public PoolableExample Spawn()
     {
-        pool.Get();
+        return pool.Get();
     }
 }
 
