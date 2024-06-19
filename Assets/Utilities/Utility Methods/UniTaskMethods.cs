@@ -7,6 +7,57 @@ using UnityEngine;
 
 namespace UtilityMethods
 {
+
+    public class UniTaskPool
+    {
+        public int maxNumberOfConcurrentTasks = 10;
+        private int numberOfExecutingTasks = 0;
+        private Queue<UniTask> tasksInQueue = new Queue<UniTask>();
+        public UniTaskPool() { }
+        public UniTaskPool(int maxNumberOfConcurrentTasks)
+        {
+            this.maxNumberOfConcurrentTasks = maxNumberOfConcurrentTasks;
+        }
+
+        public void Enqueue(UniTask task)
+        {
+            tasksInQueue.Enqueue(task);
+        }
+        public void Run()
+        {
+            for (int i = numberOfExecutingTasks; i <= maxNumberOfConcurrentTasks; i++)
+            {
+                if (tasksInQueue.TryDequeue(out UniTask task))
+                {
+                    Run(task);
+                }
+            }
+        }
+        public void Run(UniTask task)
+        {
+            if (numberOfExecutingTasks <= maxNumberOfConcurrentTasks)
+            {
+                numberOfExecutingTasks++;
+                task.ContinueWith(OnExecutionCompleted).Forget();
+            }
+            else
+            {
+                Enqueue(task);
+            }
+        }
+        private void OnExecutionCompleted()
+        {
+            numberOfExecutingTasks--;
+            RunNextTaskInQueue();
+        }
+        private void RunNextTaskInQueue()
+        {
+            if (tasksInQueue.TryDequeue(out UniTask task))
+            {
+                Run(task);
+            }
+        }
+    }
     public static class UniTaskMethods
     {
         public static async UniTask DelayedFunction(Action action, float secondsToWait)
@@ -70,11 +121,11 @@ namespace UtilityMethods
             await UniTask.WhenAll(tasksToWaitFor);
         }
 
-        public static async UniTask ExecuteWithReporting(UniTask task, VariableProgress progress)
+        public static async UniTask ExecuteWithReporting(UniTask task, VariableProgress progress, bool addToTotal = true, bool addToCompleted = true)
         {
-            progress?.AddToTotal();
+            if (addToTotal) progress?.AddToTotal();
             await task;
-            progress?.AddToCompleted();
+            if (addToCompleted) progress?.AddToCompleted();
         }
 
 
