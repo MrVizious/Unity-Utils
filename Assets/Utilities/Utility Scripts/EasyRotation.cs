@@ -5,11 +5,6 @@ using UnityEngine;
 namespace UlitityScripts
 {
 
-    public enum Space
-    {
-        Local,
-        World
-    }
     public class EasyRotation : MonoBehaviour
     {
         public Space space = Space.World;
@@ -25,11 +20,11 @@ namespace UlitityScripts
             if (rotationAxis == Vector3.zero || speed == 0f) return;
             if (space == Space.World)
             {
-                transform.Rotate(rotationAxis, speed * Time.deltaTime);
+                transform.Rotate(rotationAxis, speed * Time.deltaTime, UnityEngine.Space.World);
             }
-            else if (space == Space.World)
+            else if (space == Space.Self)
             {
-                transform.Rotate(transform.TransformDirection(rotationAxis), speed * Time.deltaTime);
+                transform.Rotate(rotationAxis, speed * Time.deltaTime, UnityEngine.Space.Self);
             }
         }
     }
