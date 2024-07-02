@@ -33,13 +33,15 @@ namespace DesignPatterns
                     T newObject;
                     if (_prefab != null)
                     {
-                        newObject = GameObject.Instantiate(_prefab);
+                        newObject = GameObject.Instantiate(_prefab, parent);
+                        newObject.name = newObjectName;
                     }
                     else
                     {
                         newObject = GetNewInstance(newObjectName, parent);
                     }
                     // Subscribe and unsubscribe
+                    newObject.onRelease = null;
                     newObject.onRelease += () => Release(newObject);
                     inactiveObjects.Add(newObject);
                     allObjects.Add(newObject);
@@ -47,7 +49,7 @@ namespace DesignPatterns
                 },
                 obj =>
                 {
-                    Debug.Log("Getting new item from pool");
+                    //Debug.Log("Getting new item from pool");
                     obj.OnPoolGet();
                 },
                 obj =>
@@ -82,6 +84,10 @@ namespace DesignPatterns
         }
         public void Release(T obj)
         {
+            if (!activeObjects.Contains(obj))
+            {
+                return;
+            }
             activeObjects.Remove(obj);
             inactiveObjects.Add(obj);
             pool.Release(obj);
