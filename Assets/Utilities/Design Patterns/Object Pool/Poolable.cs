@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UltEvents;
+using Sirenix.OdinInspector;
 
 namespace DesignPatterns
 {
-    public abstract class Poolable : MonoBehaviour
+    public abstract class Poolable : SerializedMonoBehaviour
     {
         public virtual void OnPoolGet()
         {
