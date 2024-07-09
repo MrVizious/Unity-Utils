@@ -38,7 +38,7 @@ namespace DesignPatterns
                 _instance = (T)FindObjectOfType(typeof(T));
                 if (_instance == null)
                 {
-                    Debug.Log(resourcesPath);
+                    // Debug.Log(resourcesPath);
                     GameObject newInstance = Instantiate(Resources.Load(resourcesPath)) as GameObject;
                     _instance = newInstance.GetComponent<T>();
                 }
