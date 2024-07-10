@@ -109,12 +109,16 @@ namespace ExtensionMethods
             return System.Array.ConvertAll<Vector3, Vector2>(v3, toVector2);
         }
 
-        public static Vector2 toVector2(Vector3 v3)
+        public static Vector2 toVector2(this Vector3 v3)
         {
             return new Vector2(v3.x, v3.y);
         }
+        public static Vector2Int toVector2Int(this Vector2 v2)
+        {
+            return new Vector2Int((int)v2.x, (int)v2.y);
+        }
 
-        public static Vector2 Abs(Vector2 vector2)
+        public static Vector2 Abs(this Vector2 vector2)
         {
             return new Vector2(Mathf.Abs(vector2.x), Mathf.Abs(vector2.y));
         }
@@ -216,11 +220,15 @@ namespace ExtensionMethods
             return System.Array.ConvertAll<Vector2, Vector3>(v2, toVector3);
         }
 
-        public static Vector3 toVector3(Vector2 v2)
+        public static Vector3 toVector3(this Vector2 v2)
         {
             return new Vector3(v2.x, v2.y, 0f);
         }
-        public static Vector3 Abs(Vector3 vector3)
+        public static Vector3Int toVector3Int(this Vector3 v3)
+        {
+            return new Vector3Int((int)v3.x, (int)v3.y, (int)v3.z);
+        }
+        public static Vector3 Abs(this Vector3 vector3)
         {
             return new Vector3(Mathf.Abs(vector3.x), Mathf.Abs(vector3.y), Mathf.Abs(vector3.z));
         }
