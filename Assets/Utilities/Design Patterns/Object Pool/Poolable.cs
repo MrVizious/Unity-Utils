@@ -20,6 +20,7 @@ namespace DesignPatterns
             gameObject.SetActive(false);
         }
         public UltEvent onRelease;
+        [Button]
         public virtual void Release()
         {
             onRelease.Invoke();
