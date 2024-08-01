@@ -112,6 +112,11 @@ namespace DesignPatterns
         }
 
         [Button]
+        public virtual T SubstituteStateWith(string type)
+        {
+            return SubstituteStateWith(Type.GetType(type));
+        }
+        [Button]
         public virtual T SubstituteStateWith(Type t)
         {
             Debug.Log("Type is " + t.ToString());
@@ -123,7 +128,7 @@ namespace DesignPatterns
         public virtual T SubstituteStateWith(T newState)
         {
             if (newState == null) throw new ArgumentNullException("New State to substitute into is null!");
-            if (previousState.Equals(newState))
+            if (newState.Equals(previousState))
             {
                 return ChangeToPreviousState();
             }
