@@ -5,7 +5,6 @@ using DesignPatterns;
 using ExtensionMethods;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using TypeReferences;
 using UnityEngine;
 
 namespace DesignPatterns
