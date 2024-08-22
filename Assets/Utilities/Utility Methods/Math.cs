@@ -60,6 +60,11 @@ namespace UtilityMethods
             int randomNumber = Random.Range(0, totalChance + 1);
             return randomNumber <= successThreshold;
         }
+        public static int Mod(int x, int m)
+        {
+            int r = x % m;
+            return r < 0 ? r + m : r;
+        }
     }
 
 }
