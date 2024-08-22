@@ -66,7 +66,12 @@ public class OnOffExtendedButton : ExtendedButton
     protected override void OnEnable()
     {
         base.Start();
+        GetComponentInParent<RadioButtonController>()?.Subscribe(this);
         SetState(startOn);
+    }
+    protected override void OnDisable()
+    {
+        GetComponentInParent<RadioButtonController>()?.Unsubscribe(this);
     }
     public void SetState(bool newValue)
     {

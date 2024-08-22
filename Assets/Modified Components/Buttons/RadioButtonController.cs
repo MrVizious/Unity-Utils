@@ -4,16 +4,7 @@ using UnityEngine;
 
 public class RadioButtonController : MonoBehaviour
 {
-    private OnOffExtendedButton[] buttons;
-
-    private void Start()
-    {
-        buttons = GetComponentsInChildren<OnOffExtendedButton>();
-        foreach (OnOffExtendedButton button in buttons)
-        {
-            button.onClick += () => OnClicked(button);
-        }
-    }
+    private List<OnOffExtendedButton> buttons = new List<OnOffExtendedButton>();
 
     private void OnClicked(OnOffExtendedButton button)
     {
@@ -22,5 +13,16 @@ public class RadioButtonController : MonoBehaviour
             if (otherButton == button) button.SetOn();
             else otherButton.SetOff();
         }
+    }
+
+    public void Subscribe(OnOffExtendedButton button)
+    {
+        buttons.Add(button);
+        button.onClick += () => OnClicked(button);
+    }
+    public void Unsubscribe(OnOffExtendedButton button)
+    {
+        buttons.Remove(button);
+        button.onClick -= () => OnClicked(button);
     }
 }
