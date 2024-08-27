@@ -3,15 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ExtensionMethods;
+using UnityEngine.Events;
 
 public class NonRaycastableTransparencyImage : Image
 {
+
+    public UnityEvent onSpriteChanged = new UnityEvent();
+    public new Sprite sprite
+    {
+        get => base.sprite;
+        set
+        {
+            if (base.sprite != value)
+            {
+                base.sprite = value;
+                onSpriteChanged.Invoke();
+            }
+        }
+    }
     protected override void OnEnable()
     {
         base.OnEnable();
         alphaHitTestMinimumThreshold = 0.001f;
         if (sprite == null) return;
         if (!sprite.texture.isReadable) Debug.LogWarning("Texture is not read/write enabled! The transparency check won't work!");
+
     }
 
     public override bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
