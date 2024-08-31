@@ -14,6 +14,10 @@ namespace DesignPatterns
     public abstract class Singleton<T> : SerializedMonoBehaviour where T : SerializedMonoBehaviour
     {
         protected static T _instance = null;
+        /// <summary>
+        /// This is the cached instance, and has no assurance of not being null
+        /// </summary>
+        public static T cachedInstance => _instance;
 
 
         // if you want a child class to be destroyed on load, copy this code into it:
@@ -57,6 +61,7 @@ namespace DesignPatterns
             }
             return _instance;
         }
+
 
         protected async virtual void Awake()
         {
