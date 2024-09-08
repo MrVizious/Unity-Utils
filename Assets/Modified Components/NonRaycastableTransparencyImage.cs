@@ -95,10 +95,9 @@ public class NonRaycastableTransparencyImage : Image
         // Calculate the required max size (must be a power of 2)
         int requiredMaxSize = Mathf.Max(width, height);
         int nextPowerOfTwo = Mathf.NextPowerOfTwo(requiredMaxSize);
-        Debug.Log($"Next power of two: {nextPowerOfTwo}", this);
 
         // Adjust max texture size if necessary
-        if (textureImporter.maxTextureSize < nextPowerOfTwo)
+        if (textureImporter.maxTextureSize != nextPowerOfTwo)
         {
             textureImporter.maxTextureSize = nextPowerOfTwo;
             Debug.Log($"Max texture size adjusted to {nextPowerOfTwo} to fit the texture dimensions ({width}x{height}).");
@@ -107,8 +106,6 @@ public class NonRaycastableTransparencyImage : Image
         // Apply the changes by re-importing the asset
         EditorUtility.SetDirty(textureImporter);
         textureImporter.SaveAndReimport();
-
-        Debug.Log("Texture settings have been applied and the texture has been reimported.");
     }
 #endif
 
