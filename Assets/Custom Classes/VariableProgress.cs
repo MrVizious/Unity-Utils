@@ -9,6 +9,7 @@ public class VariableProgress : Progress<float>
 {
     private int _currentlyCompleted;
     private int _totalAmount;
+    [OdinSerialize]
     public int CurrentlyCompleted
     {
         get { return _currentlyCompleted; }
@@ -19,6 +20,7 @@ public class VariableProgress : Progress<float>
         }
     }
 
+    [OdinSerialize]
     public int TotalAmount
     {
         get { return _totalAmount; }
@@ -29,6 +31,7 @@ public class VariableProgress : Progress<float>
         }
     }
 
+    [OdinSerialize]
     public float CurrentPercentage
     {
         get

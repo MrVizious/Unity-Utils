@@ -67,7 +67,7 @@ namespace UtilityMethods
             action.Invoke();
         }
 
-        public static async UniTask ExecuteInBatches(IEnumerable<UniTask> taskList, int batchSize, VariableProgress progress = null)
+        public static async UniTask ExecuteInBatches(IEnumerable<UniTask> taskList, int batchSize, bool yield = false, VariableProgress progress = null)
         {
             if (taskList == null || taskList.Count() == 0) return;
             if (batchSize <= 0)
@@ -96,6 +96,7 @@ namespace UtilityMethods
                     {
                         await WhenAllWithReporting(tempTaskList, progress);
                     }
+                    if (yield) await UniTask.Yield();
                     tempTaskList.Clear();
                 }
             }
@@ -108,6 +109,7 @@ namespace UtilityMethods
             {
                 await WhenAllWithReporting(tempTaskList, progress);
             }
+            if (yield) await UniTask.Yield();
             tempTaskList.Clear();
         }
 
