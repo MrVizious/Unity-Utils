@@ -10,6 +10,7 @@ using UnityEditor;
 
 public class NonRaycastableTransparencyImage : Image
 {
+    public bool debug = false;
     public UnityEvent onSpriteChanged = new UnityEvent();
 
     public new Sprite sprite
@@ -28,17 +29,17 @@ public class NonRaycastableTransparencyImage : Image
     protected override void OnEnable()
     {
         base.OnEnable();
+        alphaHitTestMinimumThreshold = 0.01f;
+        if (debug)
+        {
+            Debug.Log($"Alpha threshold: {alphaHitTestMinimumThreshold}", this);
+        }
 
         // Check if sprite is null or texture is not readable
         if (sprite == null) return;
         if (!sprite.texture.isReadable)
         {
             Debug.LogWarning("Texture is not read/write enabled! The transparency check won't work!");
-        }
-        else
-        {
-            // Alpha Hit Test Threshold
-            alphaHitTestMinimumThreshold = 0.001f;
         }
 
 #if UNITY_EDITOR
@@ -126,6 +127,10 @@ public class NonRaycastableTransparencyImage : Image
         // Check the pixel alpha value at the clicked location
         Vector2 uv = LocalPointToUV(localPoint);
         Color pixelColor = GetPixelColor(uv);
+        if (debug)
+        {
+            Debug.Log($"Pixel color is {pixelColor}", this);
+        }
         if (pixelColor.a < alphaHitTestMinimumThreshold)
         {
             return false; // Pixel is too transparent
@@ -137,6 +142,10 @@ public class NonRaycastableTransparencyImage : Image
             return false; // Click is outside the filled area
         }
 
+        if (debug)
+        {
+            Debug.Log($"Is raycast valid location", this);
+        }
         // If all checks pass, return true
         return true;
     }

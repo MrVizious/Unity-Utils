@@ -30,6 +30,20 @@ namespace DesignPatterns
             get { return true; }
         }
 
+        /// <summary>
+        /// This variable controls whether a new instance found in a newly loaded scene should overwrite the existing
+        /// instance or not
+        /// </summary>
+        // if you want a child class to keep the newest instance
+        // protected override bool keepOldestInstance
+        // {
+        //     get { return false; }
+        // }
+        protected virtual bool keepOldestInstance
+        {
+            get { return true; }
+        }
+
         public static bool IsAwake { get { return (_instance != null); } }
 
         /// <summary>
@@ -68,8 +82,15 @@ namespace DesignPatterns
             T currentInstance = await GetInstance();
             if (currentInstance != this)
             {
-                Destroy(_instance.gameObject);
-                _instance = GetComponent<T>();
+                if (keepOldestInstance)
+                {
+                    Destroy(this.gameObject);
+                }
+                else
+                {
+                    Destroy(_instance.gameObject);
+                    _instance = GetComponent<T>();
+                }
             }
             if (dontDestroyOnLoad) DontDestroyOnLoad(Singleton<T>._instance);
         }
