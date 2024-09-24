@@ -18,7 +18,7 @@ namespace ExtensionMethods
 
         public static T GetRandomItem<T>(this IList<T> list)
         {
-            if (list.Count == 0) throw new System.IndexOutOfRangeException("Cannot select a random item from an empty list");
+            if (list == null || list.Count <= 0) throw new System.IndexOutOfRangeException("Cannot select a random item from an empty list");
             return list[Random.Range(0, list.Count)];
         }
 
