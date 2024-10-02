@@ -67,12 +67,6 @@ namespace DesignPatterns
         }
 
 
-        public T GetNewInstance(string newName = "New Pooled Object", Transform newParent = null)
-        {
-            GameObject go = new GameObject(newName);
-            go.transform.SetParent(newParent);
-            return go.AddComponent<T>();
-        }
 
         #region Getters
         public T Get()
@@ -82,6 +76,14 @@ namespace DesignPatterns
             activeObjects.Add(obj);
             return obj;
         }
+        public T GetNewInstance(string newName = "New Pooled Object", Transform newParent = null)
+        {
+            GameObject go = new GameObject(newName);
+            go.transform.SetParent(newParent);
+            return go.AddComponent<T>();
+        }
+        #endregion
+        #region Releases
         public void Release(T obj)
         {
             if (!activeObjects.Contains(obj))
@@ -91,6 +93,13 @@ namespace DesignPatterns
             activeObjects.Remove(obj);
             inactiveObjects.Add(obj);
             pool.Release(obj);
+        }
+        public void ReleaseAllActive()
+        {
+            foreach (T activeObj in new HashSet<T>(activeObjects))
+            {
+                Release(activeObj);
+            }
         }
         #endregion
     }
