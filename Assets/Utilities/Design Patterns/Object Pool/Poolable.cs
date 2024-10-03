@@ -17,7 +17,7 @@ namespace DesignPatterns
         }
         public virtual void OnPoolDestroy()
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         public UltEvent onRelease;
         [Button]

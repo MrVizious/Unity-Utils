@@ -15,18 +15,27 @@ namespace DesignPatterns
     public class Pool<T> where T : Poolable
     {
         private T _prefab;
-        public HashSet<T> activeObjects = new HashSet<T>();
-        public HashSet<T> inactiveObjects = new HashSet<T>();
-        public HashSet<T> allObjects = new HashSet<T>();
+        private int _maxSize;
+        public List<T> activeObjects = new List<T>();
+        public List<T> inactiveObjects = new List<T>();
+        public List<T> allObjects = new List<T>();
 
         public ObjectPool<T> pool
         {
             get; protected set;
         }
 
-        public Pool(int defaultCapacity = 10, int maxSize = 100, bool collectionCheck = true, string newObjectName = "Pooled Object", T prefab = null, Transform parent = null)
+        public enum GetBehaviourWhenFull
+        {
+            DeleteOldest,
+            NotCreateNew
+        }
+        public GetBehaviourWhenFull getBehaviourWhenFull = GetBehaviourWhenFull.DeleteOldest;
+
+        public Pool(int defaultCapacity = 10, int maxSize = 100, bool collectionCheck = true, string newObjectName = "Pooled Object", T prefab = null, Transform parent = null, GetBehaviourWhenFull newGetBehaviourWhenFull = GetBehaviourWhenFull.DeleteOldest)
         {
             _prefab = prefab;
+            _maxSize = maxSize;
             pool = new ObjectPool<T>(
                 () =>
                 {
@@ -71,12 +80,30 @@ namespace DesignPatterns
         #region Getters
         public T Get()
         {
+            if (pool.CountActive >= _maxSize)
+            {
+                if (getBehaviourWhenFull == GetBehaviourWhenFull.DeleteOldest)
+                {
+                    activeObjects[0].Release();
+                    return Get();
+                }
+                if (getBehaviourWhenFull == GetBehaviourWhenFull.NotCreateNew)
+                {
+                    return null;
+                }
+            }
             T obj = pool.Get();
             inactiveObjects.Remove(obj);
             activeObjects.Add(obj);
             return obj;
         }
-        public T GetNewInstance(string newName = "New Pooled Object", Transform newParent = null)
+        /// <summary>
+        /// Used internally to create a new instance if no prefab was provided
+        /// </summary>
+        /// <param name="newName"></param>
+        /// <param name="newParent"></param>
+        /// <returns>The new instance created from no prefab</returns>
+        private T GetNewInstance(string newName = "New Pooled Object", Transform newParent = null)
         {
             GameObject go = new GameObject(newName);
             go.transform.SetParent(newParent);
