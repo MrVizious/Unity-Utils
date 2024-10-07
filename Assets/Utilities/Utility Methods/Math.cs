@@ -65,6 +65,21 @@ namespace UtilityMethods
             int r = x % m;
             return r < 0 ? r + m : r;
         }
+
+        /// <summary>
+        /// Get the nearest point to an existing point in a line, given the initial position and its direction
+        /// </summary>
+        /// <param name="linePoint">point the line passes through</param>
+        /// <param name="lineDirection">unit vector in direction of line, either direction works</param>
+        /// <param name="point">the point to find nearest on line for</param>
+        /// <returns></returns>
+        public static Vector3 NearestPointOnLine(Vector3 linePoint, Vector3 lineDirection, Vector3 point)
+        {
+            lineDirection.Normalize();//this needs to be a unit vector
+            var v = point - linePoint;
+            var d = Vector3.Dot(v, lineDirection);
+            return linePoint + lineDirection * d;
+        }
     }
 
 }
