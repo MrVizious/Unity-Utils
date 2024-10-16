@@ -25,6 +25,14 @@ public class TransformGuidedLineRenderer : SerializedMonoBehaviour
     }
     private void Update()
     {
+        UpdatePositions();
+    }
+    private void OnDrawGizmos()
+    {
+        UpdatePositions();
+    }
+    private void UpdatePositions()
+    {
         Vector3[] positions = new Vector3[transforms.Count];
         for (int i = 0; i < transforms.Count; i++)
         {
