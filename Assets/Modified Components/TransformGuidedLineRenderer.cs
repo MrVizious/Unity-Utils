@@ -23,7 +23,7 @@ public class TransformGuidedLineRenderer : SerializedMonoBehaviour
     {
         lineRenderer.positionCount = 0;
     }
-    private void Update()
+    private void LateUpdate()
     {
         UpdatePositions();
     }
