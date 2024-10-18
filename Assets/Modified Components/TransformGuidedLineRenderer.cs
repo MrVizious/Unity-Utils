@@ -29,6 +29,7 @@ public class TransformGuidedLineRenderer : SerializedMonoBehaviour
     }
     private void OnDrawGizmos()
     {
+        if (Application.isPlaying) return;
         UpdatePositions();
     }
     private void UpdatePositions()
@@ -40,6 +41,15 @@ public class TransformGuidedLineRenderer : SerializedMonoBehaviour
         }
         lineRenderer.positionCount = transforms.Count;
         lineRenderer.SetPositions(positions);
+    }
+
+    private void OnEnable()
+    {
+        lineRenderer.enabled = true;
+    }
+    private void OnDisable()
+    {
+        lineRenderer.enabled = false;
     }
 
 }
