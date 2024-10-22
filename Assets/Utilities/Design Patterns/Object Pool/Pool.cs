@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 using RuntimeSet;
+using Sirenix.OdinInspector;
 
 namespace DesignPatterns
 {
@@ -14,6 +15,7 @@ namespace DesignPatterns
     [System.Serializable]
     public class Pool<T> where T : Poolable
     {
+        [SerializeField]
         private T _prefab;
         private int _maxSize;
         public List<T> activeObjects = new List<T>();
@@ -78,6 +80,7 @@ namespace DesignPatterns
 
 
         #region Getters
+        [Button]
         public T Get()
         {
             if (pool.CountActive >= _maxSize)
@@ -103,6 +106,7 @@ namespace DesignPatterns
         /// <param name="newName"></param>
         /// <param name="newParent"></param>
         /// <returns>The new instance created from no prefab</returns>
+        [Button]
         private T GetNewInstance(string newName = "New Pooled Object", Transform newParent = null)
         {
             GameObject go = new GameObject(newName);
@@ -111,6 +115,7 @@ namespace DesignPatterns
         }
         #endregion
         #region Releases
+        [Button]
         public void Release(T obj)
         {
             if (!activeObjects.Contains(obj))
@@ -121,6 +126,7 @@ namespace DesignPatterns
             inactiveObjects.Add(obj);
             pool.Release(obj);
         }
+        [Button]
         public void ReleaseAllActive()
         {
             foreach (T activeObj in new HashSet<T>(activeObjects))
