@@ -65,6 +65,7 @@ public class OnOffExtendedButton : ExtendedButton
     public bool isOn { get; private set; }
     protected override void OnEnable()
     {
+        if (!Application.isPlaying) return;
         base.OnEnable();
         GetComponentInParent<RadioButtonController>()?.Subscribe(this);
         if (!Application.isPlaying) return;
@@ -72,6 +73,7 @@ public class OnOffExtendedButton : ExtendedButton
     }
     protected override void OnDisable()
     {
+        if (!Application.isPlaying) return;
         GetComponentInParent<RadioButtonController>()?.Unsubscribe(this);
     }
     [Button]

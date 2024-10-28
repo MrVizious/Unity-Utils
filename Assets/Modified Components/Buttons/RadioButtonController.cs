@@ -20,18 +20,23 @@ public class RadioButtonController : SerializedMonoBehaviour
 
     public void Subscribe(OnOffExtendedButton button)
     {
-        Debug.Log($"Subcribing button {button.gameObject}", this);
         if (buttons.Add(button))
+        {
+            Debug.Log($"Subcribing button {button.gameObject}", this);
             button.onClick += () => OnClicked(button);
+        }
     }
     public void Unsubscribe(OnOffExtendedButton button)
     {
-        if (buttons.Remove(button))
-            button.onClick -= () => OnClicked(button);
+        button.onClick -= () => OnClicked(button);
     }
 
     private void OnDestroy()
     {
+        foreach (OnOffExtendedButton button in buttons)
+        {
+            Unsubscribe(button);
+        }
         buttons.Clear();
     }
 }
