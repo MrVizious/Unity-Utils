@@ -6,7 +6,7 @@ namespace ExtensionMethods
 {
     public static class GameObjectExtensionMethods
     {
-        public static T GetOrAddComponent<T>(this GameObject gameObject) where T : Behaviour
+        public static T GetOrAddComponent<T>(this GameObject gameObject) where T : Component
         {
             var component = gameObject.GetComponent<T>();
             if (component == null) component = gameObject.AddComponent<T>();
@@ -20,7 +20,7 @@ namespace ExtensionMethods
             return component;
         }
 
-        public static bool HasComponent<T>(this GameObject gameObject) where T : Behaviour
+        public static bool HasComponent<T>(this GameObject gameObject) where T : Component
         {
             return gameObject.GetComponent<T>() != null;
         }
@@ -63,6 +63,11 @@ namespace ExtensionMethods
             T[] components = gameObject.GetComponentsInChildrenExcludingParent<T>();
             if (components.Length > 0) return components[0];
             return null;
+        }
+
+        public static T[] GetComponentsInDirectChildren<T>(this GameObject gameObject) where T : Component
+        {
+            return gameObject.transform.GetComponentsInDirectChildren<T>();
         }
     }
 }

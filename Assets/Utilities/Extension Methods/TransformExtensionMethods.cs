@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ExtensionMethods
@@ -34,6 +35,16 @@ namespace ExtensionMethods
         public static T GetComponentInChildrenExcludingParent<T>(this Transform transform) where T : Component
         {
             return transform.gameObject.GetComponentInChildrenExcludingParent<T>();
+        }
+        public static T[] GetComponentsInDirectChildren<T>(this Transform transform) where T : Component
+        {
+            List<T> childrenComponents = new List<T>();
+            foreach (Transform child in transform)
+            {
+                T childComponent = child.GetComponent<T>();
+                if (childComponent != null) childrenComponents.Add(childComponent);
+            }
+            return childrenComponents.ToArray();
         }
     }
 }
