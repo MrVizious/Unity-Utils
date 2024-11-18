@@ -1,7 +1,7 @@
-#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using ExtensionMethods;
+using Scaffolding;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEditor;
@@ -18,6 +18,9 @@ namespace Scaffolding
         [SerializeField]
         private Color tintColor;
 
+        [SerializeField, HideInInspector]
+        private string uniqueID; // Used to track duplicates
+
         private RectTransform _rectTransform;
         private RectTransform rectTransform
         {
@@ -28,8 +31,12 @@ namespace Scaffolding
             }
         }
 
+        private void Reset()
+        {
+            RandomizeColor();
+        }
         [Button]
-        private void RandomizeColor()
+        public void RandomizeColor()
         {
             tintColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 0.25f);
         }
@@ -79,7 +86,35 @@ namespace Scaffolding
             Gizmos.DrawLine(corners[1], corners[3]); // Diagonal from top-left to bottom-right
             Handles.EndGUI();
         }
-    }
 
+        [ExecuteInEditMode]
+        void OnEnable()
+        {
+            if (WasDuplicated())
+            {
+                Debug.Log($"{gameObject.name} was duplicated.");
+                OnDuplicated();
+            }
+        }
+
+        private bool WasDuplicated()
+        {
+            // Check if the uniqueID is empty or has been reused
+            if (string.IsNullOrEmpty(uniqueID))
+            {
+                uniqueID = System.Guid.NewGuid().ToString();
+                return false; // It's a new object, not a duplicate
+            }
+
+            // Generate a new ID for the duplicate
+            uniqueID = System.Guid.NewGuid().ToString();
+            return true; // It was duplicated
+        }
+
+        private void OnDuplicated()
+        {
+            // Logic to execute only when the object is duplicated
+            RandomizeColor();
+        }
+    }
 }
-#endif
