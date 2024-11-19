@@ -11,15 +11,13 @@ namespace Scaffolding
 {
 
     [RequireComponent(typeof(RectTransform))]
+    [ExecuteInEditMode]
     public class Scaffold : SerializedMonoBehaviour
     {
         public bool showScaffold = true;
         // The color to tint the RectTransform in the editor
         [SerializeField]
         private Color tintColor;
-
-        [SerializeField, HideInInspector]
-        private string uniqueID; // Used to track duplicates
 
         private RectTransform _rectTransform;
         private RectTransform rectTransform
@@ -31,10 +29,6 @@ namespace Scaffolding
             }
         }
 
-        private void Reset()
-        {
-            RandomizeColor();
-        }
         [Button]
         public void RandomizeColor()
         {
@@ -87,33 +81,8 @@ namespace Scaffolding
             Handles.EndGUI();
         }
 
-        [ExecuteInEditMode]
-        void OnEnable()
+        private void Awake()
         {
-            if (WasDuplicated())
-            {
-                Debug.Log($"{gameObject.name} was duplicated.");
-                OnDuplicated();
-            }
-        }
-
-        private bool WasDuplicated()
-        {
-            // Check if the uniqueID is empty or has been reused
-            if (string.IsNullOrEmpty(uniqueID))
-            {
-                uniqueID = System.Guid.NewGuid().ToString();
-                return false; // It's a new object, not a duplicate
-            }
-
-            // Generate a new ID for the duplicate
-            uniqueID = System.Guid.NewGuid().ToString();
-            return true; // It was duplicated
-        }
-
-        private void OnDuplicated()
-        {
-            // Logic to execute only when the object is duplicated
             RandomizeColor();
         }
     }
