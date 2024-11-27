@@ -22,7 +22,6 @@ public class RadioButtonController : SerializedMonoBehaviour
     {
         if (buttons.Add(button))
         {
-            Debug.Log($"Subcribing button {button.gameObject}", this);
             button.onClick += () => OnClicked(button);
         }
     }
