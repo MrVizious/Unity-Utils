@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using ExtensionMethods;
@@ -87,3 +88,4 @@ namespace Scaffolding
         }
     }
 }
+#endif
