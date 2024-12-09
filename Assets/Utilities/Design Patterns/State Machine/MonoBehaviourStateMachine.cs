@@ -54,14 +54,14 @@ namespace DesignPatterns
         {
             Debug.Log("Type is " + t.ToString());
             if (!typeof(T).IsAssignableFrom(t)) throw new ArgumentException("Type " + t + " is not a subtype of " + typeof(T).Name);
-            T newState = (T)this.GetOrAddComponent(t);
+            T newState = PrepareState(t);
             return ChangeToState(newState);
         }
         [Button]
         public virtual T ChangeToState(T newState)
         {
             // null check
-            if (newState == null) throw new ArgumentNullException("New State to substitute into is null!");
+            if (newState == null) throw new ArgumentNullException("New State to change to is null!");
 
             Type type = newState.GetType();
             T existingInstance = (T)this.GetComponent(type);
@@ -118,9 +118,8 @@ namespace DesignPatterns
         [Button]
         public virtual T SubstituteStateWith(Type t)
         {
-            Debug.Log("Type is " + t.ToString());
             if (!typeof(T).IsAssignableFrom(t)) throw new ArgumentException("Type " + t + " is not a subtype of " + typeof(T).Name);
-            T newState = (T)this.GetOrAddComponent(t);
+            T newState = PrepareState(t);
             return SubstituteStateWith(newState);
         }
         [Button]
@@ -135,6 +134,12 @@ namespace DesignPatterns
             currentState = newState;
             currentState.Enter(this);
             return currentState;
+        }
+
+        public T PrepareState(Type t)
+        {
+            if (!typeof(T).IsAssignableFrom(t)) throw new ArgumentException("Type " + t + " is not a subtype of " + typeof(T).Name);
+            return (T)this.GetOrAddComponent(t);
         }
     }
 

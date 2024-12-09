@@ -27,12 +27,17 @@ public class ExampleStateMachine : IStateMachine<ExampleState>
         throw new NotImplementedException();
     }
 
-    public ExampleState SubstituteStateWith(ExampleState newState)
+    public ExampleState PrepareState(Type t)
     {
         throw new NotImplementedException();
     }
 
     public ExampleState SubstituteStateWith(Type t)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ExampleState SubstituteStateWith(ExampleState newState)
     {
         throw new NotImplementedException();
     }
