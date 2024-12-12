@@ -60,6 +60,8 @@ namespace UtilityMethods
             int randomNumber = Random.Range(0, totalChance + 1);
             return randomNumber <= successThreshold;
         }
+
+        // TIP: If using for length of a collection, use length for the parameter m, not length-1
         public static int Mod(int x, int m)
         {
             if (m == 0) return 0;
