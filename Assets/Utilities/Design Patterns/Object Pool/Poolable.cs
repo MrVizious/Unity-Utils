@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 
 namespace DesignPatterns
 {
-    public abstract class Poolable : SerializedMonoBehaviour
+    public class Poolable : SerializedMonoBehaviour
     {
         public virtual void OnPoolGet()
         {
