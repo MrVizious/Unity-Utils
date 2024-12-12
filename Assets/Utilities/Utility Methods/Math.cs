@@ -62,6 +62,7 @@ namespace UtilityMethods
         }
         public static int Mod(int x, int m)
         {
+            if (m == 0) return 0;
             int r = x % m;
             return r < 0 ? r + m : r;
         }
