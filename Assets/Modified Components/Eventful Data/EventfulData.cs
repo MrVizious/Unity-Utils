@@ -37,7 +37,7 @@ namespace EventfulData
             }
         }
 
-        private T OnValueChanged()
+        protected virtual T OnValueChanged()
         {
             if (debug)
             {
