@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR_WIN
+﻿#if UNITY_EDITOR_WIN && !UNITY_6000_0_OR_NEWER
 using System;
 using System.Linq;
 using UnityEditor;

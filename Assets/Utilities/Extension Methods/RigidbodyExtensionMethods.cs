@@ -7,7 +7,11 @@ namespace ExtensionMethods
     {
         public static void NormalizeVelocity(this Rigidbody rb, float magnitude = 1)
         {
-            rb.velocity = rb.velocity.normalized * magnitude;
+#if UNITY_6000_0_OR_NEWER
+            rb.linearVelocity = rb.linearVelocity.normalized * magnitude;
+#else
+            rb.linearVelocity = rb.velocity.normalized * magnitude;
+#endif
         }
 
         /// <summary>
@@ -17,7 +21,11 @@ namespace ExtensionMethods
         /// <param name="direction"></param>
         public static void ChangeDirection(this Rigidbody rb, Vector3 direction)
         {
-            rb.velocity = direction.normalized * rb.velocity.magnitude;
+#if UNITY_6000_0_OR_NEWER
+            rb.linearVelocity = direction.normalized * rb.linearVelocity.magnitude;
+#else
+            rb.linearVelocity = direction.normalized * rb.velocity.magnitude;
+#endif
         }
 
         /// <summary>
@@ -26,7 +34,11 @@ namespace ExtensionMethods
         /// <param name="rb"></param>
         public static void Stop(this Rigidbody rb)
         {
+#if UNITY_6000_0_OR_NEWER
+            rb.linearVelocity = Vector3.zero;
+#else
             rb.velocity = Vector3.zero;
+#endif
         }
 
         public static void MovePositionInDirection(this Rigidbody rb, Vector3 direction)
