@@ -10,7 +10,7 @@ namespace ExtensionMethods
 #if UNITY_6000_0_OR_NEWER
             rb.linearVelocity = rb.linearVelocity.normalized * magnitude;
 #else
-            rb.linearVelocity = rb.velocity.normalized * magnitude;
+            rb.velocity = rb.velocity.normalized * magnitude;
 #endif
         }
 
@@ -24,7 +24,7 @@ namespace ExtensionMethods
 #if UNITY_6000_0_OR_NEWER
             rb.linearVelocity = direction.normalized * rb.linearVelocity.magnitude;
 #else
-            rb.linearVelocity = direction.normalized * rb.velocity.magnitude;
+            rb.velocity = direction.normalized * rb.velocity.magnitude;
 #endif
         }
 
