@@ -34,5 +34,15 @@ namespace ExtensionMethods
             list.RemoveAt(index);
             return item;
         }
+
+        /// <summary>
+        /// Checks whether the collection is null or empty
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <returns></returns>
+        public static bool IsNullOrEmpty<T>(this ICollection<T> collection)
+        {
+            return collection == null || collection.Count <= 0;
+        }
     }
 }
