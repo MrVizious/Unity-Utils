@@ -53,7 +53,7 @@ namespace DesignPatterns
         [Button]
         public virtual T ChangeToState(Type t)
         {
-            Debug.Log("Type is " + t.ToString());
+            if (debug) Debug.Log("Type is " + t.ToString());
             if (!typeof(T).IsAssignableFrom(t)) throw new ArgumentException("Type " + t + " is not a subtype of " + typeof(T).Name);
             T newState = PrepareState(t);
             return ChangeToState(newState);
