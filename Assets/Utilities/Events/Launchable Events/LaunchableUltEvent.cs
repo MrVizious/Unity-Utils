@@ -8,8 +8,8 @@ namespace UltEvents
     public class LaunchableUltEvent<T>
     {
         public UltEvent<T> @event = new UltEvent<T>();
-        [Button]
-        public void InvokeEvent(T parameter)
+        [Button(Stretch = true)]
+        public void Invoke(T parameter)
         {
             @event.Invoke(parameter);
         }
@@ -18,7 +18,7 @@ namespace UltEvents
     {
         public UltEvent @event = new UltEvent();
         [Button]
-        public void InvokeEvent()
+        public void Invoke()
         {
             @event.Invoke();
         }
