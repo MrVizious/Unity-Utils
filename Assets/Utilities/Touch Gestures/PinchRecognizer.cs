@@ -42,7 +42,10 @@ public class PinchRecognizer : DesignPatterns.Singleton<PinchRecognizer>
             }
 
             // Calculate the pinch delta relative to the initial distance
-            float pinchDelta = Mathf.Clamp01((currentDistance - initialDistance) / maxDistance);
+            float pinchDelta = (currentDistance - initialDistance) / maxDistance;
+
+            // Clamp pinchDelta between -1 and 1
+            pinchDelta = Mathf.Clamp(pinchDelta, -1f, 1f);
 
             // Invoke the event with the normalized pinch value
             onPinchPerformed?.Invoke(pinchDelta);

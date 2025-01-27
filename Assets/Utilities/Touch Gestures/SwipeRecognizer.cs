@@ -2,8 +2,9 @@ using UnityEngine;
 using UltEvents;
 using Sirenix.OdinInspector;
 
-public class SwipeRecognizer : SerializedMonoBehaviour
+public class SwipeRecognizer : DesignPatterns.Singleton<SerializedMonoBehaviour>
 {
+    protected override bool keepOldestInstance => false;
     [Tooltip("Minimum swipe distance in pixels to trigger the swipe event.")]
     public float minSwipeDistance = 50f;
 
