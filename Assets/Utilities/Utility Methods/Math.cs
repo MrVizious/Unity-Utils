@@ -17,9 +17,15 @@ namespace UtilityMethods
         /// <returns></returns>
         public static float Remap(this float value,
                                   float inputMinValue, float inputMaxValue,
-                                  float outputMinValue, float outputMaxValue)
+                                  float outputMinValue, float outputMaxValue,
+                                  bool clamp = false)
         {
-            return (value - inputMinValue) / (inputMaxValue - inputMinValue) * (outputMaxValue - outputMinValue) + outputMinValue;
+            if (Mathf.Approximately(inputMinValue, inputMaxValue))
+                return outputMinValue; // Avoid division by zero
+
+            float t = (value - inputMinValue) / (inputMaxValue - inputMinValue);
+            if (clamp) t = Mathf.Clamp01(t); // Ensure value stays in range
+            return Mathf.Lerp(outputMinValue, outputMaxValue, t);
         }
 
         public static Vector2 PolarToCartesianClockwise(float radius, float angle)
