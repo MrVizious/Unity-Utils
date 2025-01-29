@@ -21,7 +21,10 @@ namespace UtilityMethods
                                   bool clamp = false)
         {
             if (Mathf.Approximately(inputMinValue, inputMaxValue))
+            {
+                Debug.LogError($"Division by 0 avoided");
                 return outputMinValue; // Avoid division by zero
+            }
 
             float t = (value - inputMinValue) / (inputMaxValue - inputMinValue);
             if (clamp) t = Mathf.Clamp01(t); // Ensure value stays in range
