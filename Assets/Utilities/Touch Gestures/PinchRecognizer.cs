@@ -1,4 +1,5 @@
 // Created by: Javier Riera (https://mrvizious.github.io)
+using Sirenix.Serialization;
 using UltEvents;
 using UnityEngine;
 
@@ -10,10 +11,14 @@ public class PinchRecognizer : DesignPatterns.Singleton<PinchRecognizer>
     public float maxDistancePercentage = 0.5f;
 
     [Tooltip("Event triggered when a pinch is performed. Returns a float value between 0 and 1.")]
-    public LaunchableUltEvent<float> onPinchPerformed = new LaunchableUltEvent<float>();
+    [PreviouslySerializedAs("onPinchPerformed")]
+    public LaunchableUltEvent<float> onPinchValueChanged = new LaunchableUltEvent<float>();
+    public LaunchableUltEvent<float> onPinchDeltaChanged = new LaunchableUltEvent<float>();
 
 
     private float initialDistance; // The initial distance between two fingers
+    private float previousDistance; // Previous frame's pinch distance
+
     private bool isPinching;       // Whether a pinch gesture is being performed
     private float maxDistance;     // Calculated maximum distance in pixels
 
@@ -26,29 +31,36 @@ public class PinchRecognizer : DesignPatterns.Singleton<PinchRecognizer>
 
     private void Update()
     {
-        if (Input.touchCount == 2) // Only proceed if exactly two touches are detected
+        Touch touch1 = Input.GetTouch(0);
+        Touch touch2 = Input.GetTouch(1);
+
+        // Calculate the current distance between the two touches
+        float currentDistance = Vector2.Distance(touch1.position, touch2.position);
+
+        if (!isPinching)
         {
-            Touch touch1 = Input.GetTouch(0);
-            Touch touch2 = Input.GetTouch(1);
+            // First frame of pinch, initialize values but don't trigger events
+            initialDistance = currentDistance;
+            previousDistance = currentDistance;
+            isPinching = true;
+            return;
+        }
 
-            // Calculate the current distance between the two touches
-            float currentDistance = Vector2.Distance(touch1.position, touch2.position);
+        // Calculate the total pinch progress (-1 to 1)
+        float pinchDelta = (currentDistance - initialDistance) / maxDistance;
+        pinchDelta = Mathf.Clamp(pinchDelta, -1f, 1f);
 
-            // Initialize the pinch gesture
-            if (!isPinching)
-            {
-                initialDistance = currentDistance;
-                isPinching = true;
-            }
+        // Calculate the difference from the previous frame
+        float deltaChange = (currentDistance - previousDistance) / maxDistance;
 
-            // Calculate the pinch delta relative to the initial distance
-            float pinchDelta = (currentDistance - initialDistance) / maxDistance;
+        // Update previous distance for the next frame
+        previousDistance = currentDistance;
 
-            // Clamp pinchDelta between -1 and 1
-            pinchDelta = Mathf.Clamp(pinchDelta, -1f, 1f);
-
-            // Invoke the event with the normalized pinch value
-            onPinchPerformed?.Invoke(pinchDelta);
+        // Fire events
+        onPinchValueChanged?.Invoke(pinchDelta);
+        if (Mathf.Abs(deltaChange) > 0.0001f) // Avoid tiny floating-point updates
+        {
+            onPinchDeltaChanged?.Invoke(deltaChange);
         }
         else
         {
