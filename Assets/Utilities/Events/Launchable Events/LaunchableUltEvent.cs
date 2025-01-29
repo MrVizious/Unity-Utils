@@ -18,8 +18,17 @@ namespace UltEvents
             => launchableEvent.@event;
 
         // Expose += and -= so that subscriptions work seamlessly
-        public void AddListener(System.Action<T> listener) => @event += listener;
-        public void RemoveListener(System.Action<T> listener) => @event -= listener;
+        public LaunchableUltEvent<T> AddListener(System.Action<T> listener)
+        {
+            @event += listener;
+            return this;
+        }
+
+        public LaunchableUltEvent<T> RemoveListener(System.Action<T> listener)
+        {
+            @event -= listener;
+            return this;
+        }
 
 
         // Operator overloads for += and -=
@@ -48,8 +57,17 @@ namespace UltEvents
             => launchableEvent.@event;
 
         // Expose += and -= so that subscriptions work seamlessly
-        public void AddListener(System.Action listener) => @event += listener;
-        public void RemoveListener(System.Action listener) => @event -= listener;
+        public LaunchableUltEvent AddListener(System.Action listener)
+        {
+            @event += listener;
+            return this;
+        }
+
+        public LaunchableUltEvent RemoveListener(System.Action listener)
+        {
+            @event -= listener;
+            return this;
+        }
 
         public static LaunchableUltEvent operator +(LaunchableUltEvent launchableEvent, System.Action listener)
         {

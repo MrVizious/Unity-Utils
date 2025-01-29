@@ -47,5 +47,13 @@ namespace ExtensionMethods
             }
             return childrenComponents.ToArray();
         }
+
+        public static Transform CopyValuesFrom(this Transform destination, Transform from)
+        {
+            destination.position = from.position;
+            destination.rotation = from.rotation;
+            destination.localScale = from.localScale;
+            return destination;
+        }
     }
 }
