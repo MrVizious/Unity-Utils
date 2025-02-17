@@ -40,7 +40,7 @@ public class MyStructWrapperSO : WrapperStructSO<int> {}
 
 public class WrapperSO<T> : SerializedScriptableObject
 {
-    public T content = default;
+    public T content = Activator.CreateInstance<T>();
 
     public static implicit operator T(WrapperSO<T> wrapperSO) => wrapperSO.content;
 }
