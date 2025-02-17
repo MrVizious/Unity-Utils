@@ -12,6 +12,7 @@ namespace DesignPatterns
 
     public abstract class MonoBehaviourStateMachine<T> : MonoBehaviour, IStateMachine<T> where T : MonoBehaviourState<T>
     {
+        public bool debug = false;
         protected Stack<T> _stateStack = new Stack<T>();
         [ShowInInspector]
         public virtual Stack<T> stateStack
@@ -52,7 +53,7 @@ namespace DesignPatterns
         [Button]
         public virtual T ChangeToState(Type t)
         {
-            Debug.Log("Type is " + t.ToString());
+            if (debug) Debug.Log("Type is " + t.ToString());
             if (!typeof(T).IsAssignableFrom(t)) throw new ArgumentException("Type " + t + " is not a subtype of " + typeof(T).Name);
             T newState = PrepareState(t);
             return ChangeToState(newState);
@@ -60,6 +61,7 @@ namespace DesignPatterns
         [Button]
         public virtual T ChangeToState(T newState)
         {
+            if (debug) Debug.Log($"Change To State {newState}", this);
             // null check
             if (newState == null) throw new ArgumentNullException("New State to change to is null!");
 
@@ -104,6 +106,7 @@ namespace DesignPatterns
                 Debug.LogError("Can't go to previous state because it doesn't exist");
                 return null;
             }
+            if (debug) Debug.Log($"Change To Previous State", this);
             currentState?.Exit();
             currentState = stateStack.Pop();
             currentState?.Enter(this);
@@ -125,6 +128,7 @@ namespace DesignPatterns
         [Button]
         public virtual T SubstituteStateWith(T newState)
         {
+            if (debug) Debug.Log($"Substitute with State {newState}", this);
             if (newState == null) throw new ArgumentNullException("New State to substitute into is null!");
             if (newState.Equals(previousState))
             {

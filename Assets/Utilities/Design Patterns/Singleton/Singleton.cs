@@ -77,23 +77,37 @@ namespace DesignPatterns
         }
 
 
-        protected async virtual void Awake()
+        protected virtual void Awake()
         {
-            T currentInstance = await GetInstance();
-            if (currentInstance != this)
+            // If an instance already exists and it's not this one
+            if (_instance != null && _instance != this)
             {
                 if (keepOldestInstance)
                 {
+                    // Keep the old instance, destroy this one
                     Destroy(this.gameObject);
+                    return;
                 }
                 else
                 {
+                    // Replace the old instance with this one, destroy the old instance
                     Destroy(_instance.gameObject);
-                    _instance = GetComponent<T>();
+                    _instance = this as T;
                 }
             }
-            if (dontDestroyOnLoad) DontDestroyOnLoad(Singleton<T>._instance);
+            else if (_instance == null)
+            {
+                // Assign this instance if none exists
+                _instance = this as T;
+            }
+
+            // Ensure this instance persists if specified
+            if (dontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(this.gameObject);
+            }
         }
+
 
         /// <summary>
         /// for garbage collection
