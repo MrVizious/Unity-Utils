@@ -19,7 +19,7 @@ public class PinchRecognizer : DesignPatterns.Singleton<PinchRecognizer>
     private float initialDistance; // The initial distance between two fingers
     private float previousDistance; // Previous frame's pinch distance
 
-    private bool isPinching;       // Whether a pinch gesture is being performed
+    public bool isPinching { get; private set; }       // Whether a pinch gesture is being performed
     private float maxDistance;     // Calculated maximum distance in pixels
 
     private void Start()
