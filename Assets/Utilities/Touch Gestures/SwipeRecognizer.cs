@@ -13,7 +13,7 @@ public class SwipeRecognizer : DesignPatterns.Singleton<SwipeRecognizer>
     public LaunchableUltEvent<Vector2> onSwipeEnded = new LaunchableUltEvent<Vector2>();
 
     private Vector2 startTouchPosition;
-    private bool isSwiping;
+    public bool isSwiping { get; private set; }
 
     private void Update()
     {
