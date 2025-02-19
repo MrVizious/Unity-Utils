@@ -12,11 +12,9 @@ public class PinchRecognizer : DesignPatterns.Singleton<PinchRecognizer>
 
     [Tooltip("Event triggered when a pinch is performed. Returns a float value between 0 and 1.")]
     [PreviouslySerializedAs("onPinchPerformed")]
-    public LaunchableUltEvent<float> onPinchValueChanged = new LaunchableUltEvent<float>();
     public LaunchableUltEvent<float> onPinchDeltaChanged = new LaunchableUltEvent<float>();
 
 
-    private float initialDistance; // The initial distance between two fingers
     private float previousDistance; // Previous frame's pinch distance
 
     public bool isPinching { get; private set; }       // Whether a pinch gesture is being performed
@@ -45,15 +43,10 @@ public class PinchRecognizer : DesignPatterns.Singleton<PinchRecognizer>
         if (!isPinching)
         {
             // First frame of pinch, initialize values but don't trigger events
-            initialDistance = currentDistance;
             previousDistance = currentDistance;
             isPinching = true;
             return;
         }
-
-        // Calculate the total pinch progress (-1 to 1)
-        float pinchDelta = (currentDistance - initialDistance) / maxDistance;
-        pinchDelta = Mathf.Clamp(pinchDelta, -1f, 1f);
 
         // Calculate the difference from the previous frame
         float deltaChange = (currentDistance - previousDistance) / maxDistance;
@@ -62,7 +55,6 @@ public class PinchRecognizer : DesignPatterns.Singleton<PinchRecognizer>
         previousDistance = currentDistance;
 
         // Fire events
-        onPinchValueChanged?.Invoke(pinchDelta);
         if (Mathf.Abs(deltaChange) > 0.0001f) // Avoid tiny floating-point updates
         {
             onPinchDeltaChanged?.Invoke(deltaChange);
