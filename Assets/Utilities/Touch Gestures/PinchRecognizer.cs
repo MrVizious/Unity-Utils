@@ -31,7 +31,11 @@ public class PinchRecognizer : DesignPatterns.Singleton<PinchRecognizer>
 
     private void Update()
     {
-        if (Input.touchCount < 2) return;
+        if (Input.touchCount < 2)
+        {
+            isPinching = false;
+            return;
+        }
         Touch touch1 = Input.GetTouch(0);
         Touch touch2 = Input.GetTouch(1);
 
