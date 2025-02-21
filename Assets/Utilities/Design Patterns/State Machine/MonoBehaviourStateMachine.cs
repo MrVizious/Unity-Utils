@@ -143,7 +143,15 @@ namespace DesignPatterns
         public T PrepareState(Type t)
         {
             if (!typeof(T).IsAssignableFrom(t)) throw new ArgumentException("Type " + t + " is not a subtype of " + typeof(T).Name);
-            return (T)this.GetOrAddComponent(t);
+            T existingState = (T)GetComponent(t);
+            if (existingState == null) return CreateState(t);
+            else return existingState;
+        }
+
+        public T CreateState(Type t)
+        {
+            if (!typeof(T).IsAssignableFrom(t)) throw new ArgumentException("Type " + t + " is not a subtype of " + typeof(T).Name);
+            return (T)this.AddComponent(t);
         }
     }
 

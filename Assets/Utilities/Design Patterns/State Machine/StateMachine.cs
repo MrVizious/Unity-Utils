@@ -18,6 +18,7 @@ namespace DesignPatterns
         public T currentState { get; }
         public T previousState { get; }
 
+        public T CreateState(Type t);
         public T PrepareState(Type t);
         public T ChangeToState(Type t);
         public T ChangeToState(T newState);

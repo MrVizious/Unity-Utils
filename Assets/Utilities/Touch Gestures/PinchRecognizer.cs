@@ -19,6 +19,8 @@ public class PinchRecognizer : DesignPatterns.Singleton<PinchRecognizer>
 
     public bool isPinching { get; private set; }       // Whether a pinch gesture is being performed
     private float maxDistance;     // Calculated maximum distance in pixels
+    [Range(1f, 100f)]
+    private float clampedDeltaMagnitude = 50f;
 
     private void Start()
     {
@@ -57,7 +59,7 @@ public class PinchRecognizer : DesignPatterns.Singleton<PinchRecognizer>
         // Fire events
         if (Mathf.Abs(deltaChange) > 0.0001f) // Avoid tiny floating-point updates
         {
-            onPinchDeltaChanged?.Invoke(deltaChange);
+            onPinchDeltaChanged?.Invoke(Mathf.Clamp(deltaChange, -clampedDeltaMagnitude, clampedDeltaMagnitude));
         }
         else
         {

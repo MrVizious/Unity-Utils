@@ -19,19 +19,39 @@ public class SwipeRecognizer : DesignPatterns.Singleton<SwipeRecognizer>
 
     private Vector2 startTouchPosition;
     private Vector2 lastTouchPosition;
+
+    [Range(1f, 100f)]
+    public float clampedDeltaMagnitude = 50f;
+
     public bool isSwiping { get; private set; }
+    private bool wasMultiTouch = false; // Tracks if multi-touch occurred
 
     private void Update()
     {
-        if (Input.touchCount != 1)
+        int touchCount = Input.touchCount;
+
+        // If more than one finger is detected, mark multi-touch and cancel any swipe
+        if (touchCount > 1)
         {
+            wasMultiTouch = true;
             isSwiping = false;
             return;
         }
+
+        // If no fingers are touching the screen, reset the multi-touch flag
+        if (touchCount == 0)
+        {
+            wasMultiTouch = false;
+            return;
+        }
+
+        // If multi-touch occurred previously, prevent swiping until all fingers are lifted
+        if (wasMultiTouch) return;
+
         Touch touch = Input.GetTouch(0);
         Vector2 endTouchPosition = touch.position;
         Vector2 swipeDistance = endTouchPosition - startTouchPosition;
-        Vector2 swipeDelta = endTouchPosition - lastTouchPosition;
+        Vector2 swipeDelta = Vector2.ClampMagnitude(endTouchPosition - lastTouchPosition, clampedDeltaMagnitude);
 
         switch (touch.phase)
         {
@@ -43,7 +63,7 @@ public class SwipeRecognizer : DesignPatterns.Singleton<SwipeRecognizer>
 
             case TouchPhase.Moved:
                 onSwipeUpdated?.Invoke(swipeDistance);
-                onSwipeDeltaChanged?.Invoke(swipeDelta); // Fire delta event
+                onSwipeDeltaChanged?.Invoke(swipeDelta);
                 lastTouchPosition = endTouchPosition;
                 break;
 
@@ -51,14 +71,11 @@ public class SwipeRecognizer : DesignPatterns.Singleton<SwipeRecognizer>
                 break;
 
             case TouchPhase.Ended:
-                if (isSwiping)
+                if (isSwiping && swipeDistance.magnitude >= minSwipeDistance)
                 {
-                    if (swipeDistance.magnitude >= minSwipeDistance)
-                    {
-                        onSwipeEnded?.Invoke(swipeDistance);
-                    }
-                    isSwiping = false;
+                    onSwipeEnded?.Invoke(swipeDistance);
                 }
+                isSwiping = false;
                 break;
 
             case TouchPhase.Canceled:

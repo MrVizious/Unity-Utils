@@ -27,6 +27,11 @@ public class ExampleStateMachine : IStateMachine<ExampleState>
         throw new NotImplementedException();
     }
 
+    public ExampleState CreateState(Type t)
+    {
+        throw new NotImplementedException();
+    }
+
     public ExampleState PrepareState(Type t)
     {
         throw new NotImplementedException();

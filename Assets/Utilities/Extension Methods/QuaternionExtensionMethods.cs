@@ -13,7 +13,7 @@ namespace ExtensionMethods
             return new Quaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
         }
 
-        public static bool SimilarTo(this Quaternion quaternionA, Quaternion quaternionB, float acceptablePercentageDifference)
+        public static bool SimilarTo(this Quaternion quaternionA, Quaternion quaternionB, float acceptablePercentageDifference = 0.99f)
         {
             return (1 - Mathf.Abs(Quaternion.Dot(quaternionA, quaternionB)) < acceptablePercentageDifference);
         }
