@@ -14,6 +14,9 @@ public class PinchRecognizer : DesignPatterns.Singleton<PinchRecognizer>
     [PreviouslySerializedAs("onPinchPerformed")]
     public LaunchableUltEvent<float> onPinchDeltaChanged = new LaunchableUltEvent<float>();
 
+    [Tooltip("Event triggered when a pinch is ended. Returns a float value between 0 and 1.")]
+    public LaunchableUltEvent onPinchEnded = new LaunchableUltEvent();
+
 
     private float previousDistance; // Previous frame's pinch distance
 
@@ -33,6 +36,7 @@ public class PinchRecognizer : DesignPatterns.Singleton<PinchRecognizer>
     {
         if (Input.touchCount < 2)
         {
+            if (isPinching) onPinchEnded.Invoke();
             isPinching = false;
             return;
         }
