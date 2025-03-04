@@ -33,7 +33,7 @@ public class WrapperStructSO<T> : SerializedScriptableObject where T : struct
 /*
 Example usage:
 
-[CreateAssetMenu(fileName = "MyStructWrapperSO", menuName = "Unity-Utils/Wrappers/WrapperStructSO", order = 0)]
+[CreateAssetMenu(fileName = "MyWrapperSO", menuName = "Unity-Utils/Wrappers/WrapperStructSO", order = 0)]
 public class MyStructWrapperSO : WrapperStructSO<int> {}
 */
 
@@ -44,3 +44,9 @@ public class WrapperSO<T> : SerializedScriptableObject
 
     public static implicit operator T(WrapperSO<T> wrapperSO) => wrapperSO.content;
 }
+/*
+Example usage:
+
+[CreateAssetMenu(fileName = "MyWrapperSO", menuName = "Unity-Utils/Wrappers/WrapperSO", order = 0)]
+public class MyWrapperSO : WrapperSO<int> {}
+*/
