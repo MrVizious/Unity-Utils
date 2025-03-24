@@ -58,13 +58,14 @@ public class SwipeRecognizer : DesignPatterns.Singleton<SwipeRecognizer>
             case TouchPhase.Began:
                 startTouchPosition = endTouchPosition;
                 lastTouchPosition = endTouchPosition;
-                isSwiping = true;
+                isSwiping = false;
                 break;
 
             case TouchPhase.Moved:
                 onSwipeUpdated?.Invoke(swipeDistance);
                 onSwipeDeltaChanged?.Invoke(swipeDelta);
                 lastTouchPosition = endTouchPosition;
+                isSwiping = true;
                 break;
 
             case TouchPhase.Stationary:
