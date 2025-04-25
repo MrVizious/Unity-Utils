@@ -47,9 +47,10 @@ namespace EventfulData
             return value;
         }
 
-        protected EventfulData(T initialValue)
+        protected EventfulData(T initialValue, bool debug = false)
         {
             _value = initialValue;
+            this.debug = debug; ;
         }
 
         public override string ToString() => _value?.ToString() ?? "null";
@@ -61,7 +62,7 @@ namespace EventfulData
     [Serializable]
     public class EventfulClass<T> : EventfulData<T> where T : class
     {
-        public EventfulClass(T initialValue = null) : base(initialValue) { }
+        public EventfulClass(T initialValue = null, bool debug = false) : base(initialValue, debug) { }
 
         public static implicit operator T(EventfulClass<T> data) => data.value;
         public static implicit operator EventfulClass<T>(T value) => new EventfulClass<T>(value);
@@ -73,7 +74,7 @@ namespace EventfulData
     [Serializable]
     public class EventfulStruct<T> : EventfulData<T> where T : struct
     {
-        public EventfulStruct(T initialValue = default) : base(initialValue) { }
+        public EventfulStruct(T initialValue = default, bool debug = false) : base(initialValue, debug) { }
 
         public static implicit operator T(EventfulStruct<T> data) => data.value;
         public static implicit operator EventfulStruct<T>(T value) => new EventfulStruct<T>(value);
