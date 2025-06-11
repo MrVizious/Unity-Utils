@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
@@ -8,6 +9,11 @@ namespace UltEvents
     public class LaunchableUltEvent<T>
     {
         public UltEvent<T> @event = new UltEvent<T>();
+        [Obsolete("Use Invoke() instead")]
+        public void InvokeEvent(T parameter)
+        {
+            @event.Invoke(parameter);
+        }
         [Button]
         public void Invoke(T parameter)
         {
@@ -47,6 +53,11 @@ namespace UltEvents
     public class LaunchableUltEvent
     {
         public UltEvent @event = new UltEvent();
+        [Obsolete("Use Invoke() instead")]
+        public void InvokeEvent()
+        {
+            @event.Invoke();
+        }
         [Button]
         public void Invoke()
         {
