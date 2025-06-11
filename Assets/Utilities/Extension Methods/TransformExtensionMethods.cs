@@ -55,5 +55,43 @@ namespace ExtensionMethods
             destination.localScale = from.localScale;
             return destination;
         }
+
+
+        public static Quaternion GetAverageRotation(IEnumerable<Transform> transforms)
+        {
+            int count = 0;
+            Quaternion rotationSum = new Quaternion(0, 0, 0, 0);
+            Quaternion referenceRotation = Quaternion.identity;
+            bool hasReference = false;
+
+            foreach (var data in transforms)
+            {
+                if (!hasReference)
+                {
+                    referenceRotation = data.rotation;
+                    hasReference = true;
+                }
+
+                // Align quaternion signs to avoid cancellation
+                var rot = data.rotation;
+                if (Quaternion.Dot(rot, referenceRotation) < 0f)
+                    rot = new Quaternion(-rot.x, -rot.y, -rot.z, -rot.w);
+
+                rotationSum.x += rot.x;
+                rotationSum.y += rot.y;
+                rotationSum.z += rot.z;
+                rotationSum.w += rot.w;
+
+                count++;
+            }
+
+            if (count == 0)
+                return Quaternion.identity;
+
+            Quaternion avgRotation = rotationSum.normalized;
+            return avgRotation;
+
+
+        }
     }
 }
