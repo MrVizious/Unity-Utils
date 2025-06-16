@@ -9,7 +9,7 @@ namespace EventfulData
     /// Base class for Eventful data that triggers an event when the value changes.
     /// </summary>
     [Serializable]
-    public abstract class EventfulData<T>
+    public class EventfulData<T>
     {
         public bool debug = false;
         [SerializeField]
@@ -37,7 +37,7 @@ namespace EventfulData
             }
         }
 
-        protected virtual T OnValueChanged()
+        protected T OnValueChanged()
         {
             if (debug)
             {
@@ -47,22 +47,25 @@ namespace EventfulData
             return value;
         }
 
-        protected EventfulData(T initialValue, bool debug = false)
+        public EventfulData(T initialValue = default, bool debug = false)
         {
             _value = initialValue;
             this.debug = debug; ;
         }
 
         public override string ToString() => _value?.ToString() ?? "null";
+        // public static implicit operator T(EventfulData<T> data) => data.value;
+        // public static implicit operator EventfulData<T>(T value) => new EventfulData<T>(value);
     }
 
     /// <summary>
     /// Eventful data for reference types.
     /// </summary>
     [Serializable]
-    public class EventfulClass<T> : EventfulData<T> where T : class
+    [Obsolete("Use EventfulData instead")]
+    public class EventfulClass<T> : EventfulData<T>
     {
-        public EventfulClass(T initialValue = null, bool debug = false) : base(initialValue, debug) { }
+        public EventfulClass(T initialValue = default, bool debug = false) : base(initialValue, debug) { }
 
         public static implicit operator T(EventfulClass<T> data) => data.value;
         public static implicit operator EventfulClass<T>(T value) => new EventfulClass<T>(value);
@@ -72,6 +75,7 @@ namespace EventfulData
     /// Eventful data for value types.
     /// </summary>
     [Serializable]
+    [Obsolete("Use EventfulData instead")]
     public class EventfulStruct<T> : EventfulData<T> where T : struct
     {
         public EventfulStruct(T initialValue = default, bool debug = false) : base(initialValue, debug) { }
