@@ -1,17 +1,14 @@
 #if UNITY_EDITOR
-using System.Collections;
-using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Scaffolding
 {
-
     public class ScaffoldingColorController : SerializedMonoBehaviour
     {
         public bool hideOnPlay = true;
-        private Scaffold[] scaffolds => FindObjectsOfType<Scaffold>();
+        private Scaffold[] scaffolds => FindObjectsByType(typeof(Scaffold), FindObjectsSortMode.InstanceID) as Scaffold[];
         [Button]
         public void ShowScaffolding()
         {
@@ -35,6 +32,5 @@ namespace Scaffolding
             if (hideOnPlay) HideScaffolding();
         }
     }
-
 }
 #endif
