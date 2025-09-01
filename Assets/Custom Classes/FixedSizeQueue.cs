@@ -11,7 +11,7 @@ public class FixedSizedQueue<T> : Queue<T>
 
     public new void Enqueue(T obj)
     {
-        Enqueue(obj);
+        base.Enqueue(obj);
         while (Count > Size)
         {
             T outObj;
