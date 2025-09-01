@@ -13,7 +13,9 @@ public class FastQueue<T> : ICollection<T>, IReadOnlyCollection<T>, ICollection,
 
     public FastQueue() : this(null) { }
 
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
     public FastQueue(IEqualityComparer<T>? comparer)
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
     {
         this.comparer = comparer ?? EqualityComparer<T>.Default;
     }
@@ -193,7 +195,9 @@ public class FastQueue<T> : ICollection<T>, IReadOnlyCollection<T>, ICollection,
         info.AddValue("Comparer", comparer);
     }
 
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
     public void OnDeserialization(object? sender)
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
     {
         // No-op required for IDeserializationCallback
     }

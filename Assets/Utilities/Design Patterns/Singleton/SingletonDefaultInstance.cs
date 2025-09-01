@@ -35,7 +35,7 @@ namespace DesignPatterns
             // If there is not an existing singleton instance
             if (_instance == null)
             {
-                _instance = (T)FindObjectOfType(typeof(T));
+                _instance = FindFirstObjectByType<T>();
                 if (_instance == null)
                 {
                     // Debug.Log(resourcesPath);

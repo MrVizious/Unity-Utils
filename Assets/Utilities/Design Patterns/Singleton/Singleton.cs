@@ -1,6 +1,6 @@
-using UnityEngine;
-using Sirenix.OdinInspector;
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace DesignPatterns
 {
@@ -58,7 +58,7 @@ namespace DesignPatterns
             // If there is not an existing singleton instance
             if (_instance == null)
             {
-                _instance = (T)FindObjectOfType(typeof(T));
+                _instance = FindFirstObjectByType<T>();
                 if (_instance == null)
                 {
                     string goName = typeof(T).ToString();
