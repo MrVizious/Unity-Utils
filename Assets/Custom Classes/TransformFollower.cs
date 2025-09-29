@@ -65,8 +65,8 @@ public class TransformFollower : MonoBehaviour
         }
 
         // ----- SCALE -----
-        Vector3 baseScale = target.lossyScale;
-        Vector3 finalScale = baseScale + worldScaleOffset + target.TransformVector(localScaleOffset);
+        Vector3 baseScale = target.localScale;
+        Vector3 finalScale = baseScale + worldScaleOffset + localScaleOffset;
 
         if (followScale)
         {
@@ -76,5 +76,6 @@ public class TransformFollower : MonoBehaviour
         {
             transform.localScale = finalScale;
         }
+
     }
 }
