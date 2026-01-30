@@ -7,7 +7,6 @@ public class WrapperHolder<T>
     public WrapperSO<T> dataWrapperSO;
     private T _content = Activator.CreateInstance<T>();
 
-    [SerializeField]
     public T content
     {
         get
